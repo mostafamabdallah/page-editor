@@ -1,5 +1,13 @@
 // puck.config.tsx
 import { type Config } from "@measured/puck";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 
 const config: Config = {
 
@@ -99,48 +107,41 @@ const config: Config = {
           type: "text",
           label: "Link URL"
         },
-        style: {
+        variant: {
           type: "select",
-          label: "Button Style",
+          label: "Button Variant",
           options: [
-            { label: "Primary", value: "primary" },
+            { label: "Default", value: "default" },
+            { label: "Destructive", value: "destructive" },
+            { label: "Outline", value: "outline" },
             { label: "Secondary", value: "secondary" },
+            { label: "Ghost", value: "ghost" },
+            { label: "Link", value: "link" },
+          ],
+        },
+        size: {
+          type: "select",
+          label: "Button Size",
+          options: [
+            { label: "Small", value: "sm" },
+            { label: "Default", value: "default" },
+            { label: "Large", value: "lg" },
+            { label: "Icon", value: "icon" },
           ],
         },
       },
       defaultProps: {
         text: "Click Me",
         link: "#",
-        style: "primary",
+        variant: "default",
+        size: "default",
       },
-      render: ({ text, link, style }) => {
-        const buttonStyle = {
-          primary: {
-            backgroundColor: "#007bff",
-            color: "white",
-            border: "none",
-          },
-          secondary: {
-            backgroundColor: "#6c757d",
-            color: "white",
-            border: "none",
-          },
-        };
-
+      render: ({ text, link, variant, size }) => {
         return (
-          <a
-            href={link}
-            style={{
-              ...buttonStyle[style as keyof typeof buttonStyle],
-              padding: "12px 24px",
-              borderRadius: "4px",
-              textDecoration: "none",
-              display: "inline-block",
-              margin: "10px 0",
-              cursor: "pointer",
-            }}
-          >
-            {text}
+          <a href={link} style={{ textDecoration: "none" }}>
+            <Button variant={variant as "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"} size={size as "default" | "sm" | "lg" | "icon"}>
+              {text}
+            </Button>
           </a>
         );
       },
@@ -681,24 +682,19 @@ const config: Config = {
         color: "#e3f2fd",
       },
       render: ({ icon, title, description, color }) => (
-        <div style={{
-          backgroundColor: color,
-          padding: "30px",
-          borderRadius: "12px",
-          textAlign: "center",
-          border: "1px solid rgba(0,0,0,0.1)",
-          transition: "transform 0.2s ease",
-        }}>
-          <div style={{ fontSize: "3rem", marginBottom: "15px" }}>
-            {icon}
-          </div>
-          <h3 style={{ margin: "0 0 15px 0", fontSize: "1.3rem", fontWeight: "bold" }}>
-            {title}
-          </h3>
-          <p style={{ margin: "0", color: "#666", lineHeight: "1.6" }}>
-            {description}
-          </p>
-        </div>
+        <Card style={{ backgroundColor: color, textAlign: "center" }}>
+          <CardHeader>
+            <div style={{ fontSize: "3rem", marginBottom: "15px" }}>
+              {icon}
+            </div>
+            <CardTitle>{title}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription style={{ color: "#666", lineHeight: "1.6" }}>
+              {description}
+            </CardDescription>
+          </CardContent>
+        </Card>
       ),
     },
 
@@ -1197,6 +1193,7 @@ const config: Config = {
           type: "select",
           label: "Number of Rows",
           options: [
+            { label: "1 Rows", value: "1" },
             { label: "2 Rows", value: "2" },
             { label: "3 Rows", value: "3" },
             { label: "4 Rows", value: "4" },
@@ -1553,19 +1550,12 @@ const config: Config = {
         required: "false",
       },
       render: ({ type, placeholder, name, required }) => (
-        <input
+        <Input
           type={type}
           placeholder={placeholder}
           name={name}
           required={required === "true"}
-          style={{
-            width: "100%",
-            padding: "8px 12px",
-            border: "1px solid #ddd",
-            borderRadius: "4px",
-            fontSize: "16px",
-            boxSizing: "border-box",
-          }}
+          style={{ width: "100%" }}
         />
       ),
     },
@@ -1591,21 +1581,177 @@ const config: Config = {
         required: "false",
       },
       render: ({ placeholder, name, rows, required }) => (
-        <textarea
+        <Textarea
           placeholder={placeholder}
           name={name}
           rows={rows}
           required={required === "true"}
-          style={{
-            width: "100%",
-            padding: "8px 12px",
-            border: "1px solid #ddd",
-            borderRadius: "4px",
-            fontSize: "16px",
-            resize: "vertical",
-            boxSizing: "border-box",
-          }}
+          style={{ width: "100%" }}
         />
+      ),
+    },
+
+    // ========== SHADCN/UI COMPONENTS ==========
+    Badge: {
+      fields: {
+        text: { type: "text", label: "Badge Text" },
+        variant: {
+          type: "select",
+          label: "Badge Variant",
+          options: [
+            { label: "Default", value: "default" },
+            { label: "Secondary", value: "secondary" },
+            { label: "Destructive", value: "destructive" },
+            { label: "Outline", value: "outline" },
+          ],
+        },
+      },
+      defaultProps: {
+        text: "Badge",
+        variant: "default",
+      },
+      render: ({ text, variant }) => (
+        <Badge variant={variant as "default" | "secondary" | "destructive" | "outline"}>
+          {text}
+        </Badge>
+      ),
+    },
+
+    Alert: {
+      fields: {
+        variant: {
+          type: "select",
+          label: "Alert Variant",
+          options: [
+            { label: "Default", value: "default" },
+            { label: "Destructive", value: "destructive" },
+          ],
+        },
+        children: { type: "slot", label: "Alert Content" },
+      },
+      defaultProps: {
+        variant: "default",
+      },
+      render: ({ variant, children }) => (
+        <Alert variant={variant as "default" | "destructive"}>
+          {children}
+        </Alert>
+      ),
+    },
+
+    AlertTitle: {
+      fields: {
+        text: { type: "text", label: "Alert Title" },
+      },
+      defaultProps: {
+        text: "Alert Title",
+      },
+      render: ({ text }) => (
+        <AlertTitle>{text}</AlertTitle>
+      ),
+    },
+
+    AlertDescription: {
+      fields: {
+        text: { type: "text", label: "Alert Description" },
+      },
+      defaultProps: {
+        text: "Alert description text goes here.",
+      },
+      render: ({ text }) => (
+        <AlertDescription>{text}</AlertDescription>
+      ),
+    },
+
+    Separator: {
+      fields: {
+        orientation: {
+          type: "select",
+          label: "Orientation",
+          options: [
+            { label: "Horizontal", value: "horizontal" },
+            { label: "Vertical", value: "vertical" },
+          ],
+        },
+      },
+      defaultProps: {
+        orientation: "horizontal",
+      },
+      render: ({ orientation }) => (
+        <Separator orientation={orientation as "horizontal" | "vertical"} />
+      ),
+    },
+
+    Avatar: {
+      fields: {
+        src: { type: "text", label: "Image URL" },
+        alt: { type: "text", label: "Alt Text" },
+        fallback: { type: "text", label: "Fallback Text" },
+      },
+      defaultProps: {
+        src: "",
+        alt: "Avatar",
+        fallback: "AV",
+      },
+      render: ({ src, alt, fallback }) => (
+        <Avatar>
+          <AvatarImage src={src} alt={alt} />
+          <AvatarFallback>{fallback}</AvatarFallback>
+        </Avatar>
+      ),
+    },
+
+    UICard: {
+      fields: {
+        children: { type: "slot", label: "Card Content" },
+      },
+      defaultProps: {},
+      render: ({ children }) => (
+        <Card>{children}</Card>
+      ),
+    },
+
+    UICardHeader: {
+      fields: {
+        children: { type: "slot", label: "Header Content" },
+      },
+      defaultProps: {},
+      render: ({ children }) => (
+        <CardHeader>{children}</CardHeader>
+      ),
+    },
+
+    UICardTitle: {
+      fields: {
+        text: { type: "text", label: "Title Text" },
+      },
+      defaultProps: {
+        text: "Card Title",
+      },
+      render: ({ text }) => (
+        <CardTitle>{text}</CardTitle>
+      ),
+    },
+
+    UICardDescription: {
+      fields: {
+        text: { type: "text", label: "Description Text" },
+      },
+      defaultProps: {
+        text: "Card description goes here.",
+      },
+      render: ({ text }) => (
+        <CardDescription>{text}</CardDescription>
+      ),
+    },
+
+    UICardContent: {
+      fields: {
+        children: { type: "slot", label: "Content" },
+      },
+      defaultProps: {},
+      render: ({ children }) => (
+        <CardContent>{children}</CardContent>
       ),
     },
 
