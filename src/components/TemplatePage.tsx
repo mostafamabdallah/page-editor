@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 // Helper function to generate unique IDs
 const generateId = (type: string, index: number) => `${type}-${Date.now()}-${index}`;
@@ -339,10 +341,320 @@ const templates = [
 
 export function TemplatePage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  // Function to create localized template data
+  const createLocalizedTemplateData = (templateId: string) => {
+    const content = t(`templatePage.templates.${templateId}.content`);
+    
+    switch (templateId) {
+      case "startup":
+        return {
+          content: [
+            {
+              type: "Hero",
+              props: {
+                title: content.heroTitle,
+                subtitle: content.heroSubtitle,
+                buttonText: content.heroButton,
+                buttonLink: "#",
+                backgroundColor: "#667eea",
+                textColor: "#ffffff",
+                height: "500px",
+              },
+            },
+            {
+              type: "Heading",
+              props: {
+                text: content.whyChooseUs,
+                level: "h2",
+              },
+            },
+            {
+              type: "FeatureCard",
+              props: {
+                icon: "⚡",
+                title: content.lightningFast,
+                description: content.lightningFastDesc,
+                color: "#e3f2fd",
+              },
+            },
+            {
+              type: "FeatureCard",
+              props: {
+                icon: "🔒",
+                title: content.secureReliable,
+                description: content.secureReliableDesc,
+                color: "#e8f5e8",
+              },
+            },
+            {
+              type: "FeatureCard",
+              props: {
+                icon: "📈",
+                title: content.scaleEasily,
+                description: content.scaleEasilyDesc,
+                color: "#fff3e0",
+              },
+            },
+            {
+              type: "Testimonial",
+              props: {
+                quote: content.testimonialQuote,
+                author: content.testimonialAuthor,
+                role: content.testimonialRole,
+                rating: "5",
+              },
+            },
+            {
+              type: "Button",
+              props: {
+                text: content.startFreeTrial,
+                link: "#",
+                style: "primary",
+              },
+            },
+          ],
+          root: { props: {} },
+          zones: {},
+        };
+      
+      case "portfolio":
+        return {
+          content: [
+            {
+              type: "Hero",
+              props: {
+                title: content.heroTitle,
+                subtitle: content.heroSubtitle,
+                buttonText: content.heroButton,
+                buttonLink: "#portfolio",
+                backgroundColor: "#764ba2",
+                textColor: "#ffffff",
+                height: "500px",
+              },
+            },
+            {
+              type: "Heading",
+              props: {
+                text: content.featuredProjects,
+                level: "h2",
+              },
+            },
+            {
+              type: "Card",
+              props: {
+                title: content.ecommercePlatform,
+                content: content.ecommerceDesc,
+                imageUrl: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkVjb21tZXJjZTwvdGV4dD4KPC9zdmc+",
+              },
+            },
+            {
+              type: "Card",
+              props: {
+                title: content.mobileAppDesign,
+                content: content.mobileAppDesc,
+                imageUrl: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk1vYmlsZTwvdGV4dD4KPC9zdmc+",
+              },
+            },
+            {
+              type: "Heading",
+              props: {
+                text: content.skillsExpertise,
+                level: "h2",
+              },
+            },
+            {
+              type: "FeatureCard",
+              props: {
+                icon: "💻",
+                title: content.frontendDev,
+                description: content.frontendTech,
+                color: "#e3f2fd",
+              },
+            },
+            {
+              type: "FeatureCard",
+              props: {
+                icon: "🎨",
+                title: content.uiuxDesign,
+                description: content.uiuxTech,
+                color: "#f3e5f5",
+              },
+            },
+            {
+              type: "FeatureCard",
+              props: {
+                icon: "📱",
+                title: content.mobileDev,
+                description: content.mobileTech,
+                color: "#e8f5e8",
+              },
+            },
+          ],
+          root: { props: {} },
+          zones: {},
+        };
+      
+      case "business":
+        return {
+          content: [
+            {
+              type: "Hero",
+              props: {
+                title: content.heroTitle,
+                subtitle: content.heroSubtitle,
+                buttonText: content.heroButton,
+                buttonLink: "#contact",
+                backgroundColor: "#2c3e50",
+                textColor: "#ffffff",
+                height: "500px",
+              },
+            },
+            {
+              type: "Heading",
+              props: {
+                text: content.ourServices,
+                level: "h2",
+              },
+            },
+            {
+              type: "FeatureCard",
+              props: {
+                icon: "💼",
+                title: content.businessConsulting,
+                description: content.businessConsultingDesc,
+                color: "#e3f2fd",
+              },
+            },
+            {
+              type: "FeatureCard",
+              props: {
+                icon: "🔧",
+                title: content.technicalSolutions,
+                description: content.technicalSolutionsDesc,
+                color: "#e8f5e8",
+              },
+            },
+            {
+              type: "FeatureCard",
+              props: {
+                icon: "📊",
+                title: content.analyticsInsights,
+                description: content.analyticsInsightsDesc,
+                color: "#fff3e0",
+              },
+            },
+            {
+              type: "Testimonial",
+              props: {
+                quote: content.testimonialQuote,
+                author: content.testimonialAuthor,
+                role: content.testimonialRole,
+                rating: "5",
+              },
+            },
+            {
+              type: "ContactForm",
+              props: {
+                title: content.getInTouch,
+                submitText: content.sendMessage,
+                backgroundColor: "#ffffff",
+              },
+            },
+          ],
+          root: { props: {} },
+          zones: {},
+        };
+      
+      case "saas":
+        return {
+          content: [
+            {
+              type: "Hero",
+              props: {
+                title: content.heroTitle,
+                subtitle: content.heroSubtitle,
+                buttonText: content.heroButton,
+                buttonLink: "#trial",
+                backgroundColor: "#667eea",
+                textColor: "#ffffff",
+                height: "500px",
+              },
+            },
+            {
+              type: "Heading",
+              props: {
+                text: content.pricingPlans,
+                level: "h2",
+              },
+            },
+            {
+              type: "PricingCard",
+              props: {
+                planName: content.starterPlan,
+                price: content.starterPrice,
+                period: content.starterPeriod,
+                features: content.starterFeatures,
+                buttonText: content.starterButton,
+                buttonLink: "#",
+                popular: "false",
+              },
+            },
+            {
+              type: "PricingCard",
+              props: {
+                planName: content.professionalPlan,
+                price: content.professionalPrice,
+                period: content.professionalPeriod,
+                features: content.professionalFeatures,
+                buttonText: content.professionalButton,
+                buttonLink: "#",
+                popular: "true",
+              },
+            },
+            {
+              type: "PricingCard",
+              props: {
+                planName: content.enterprisePlan,
+                price: content.enterprisePrice,
+                period: content.enterprisePeriod,
+                features: content.enterpriseFeatures,
+                buttonText: content.enterpriseButton,
+                buttonLink: "#",
+                popular: "false",
+              },
+            },
+            {
+              type: "Heading",
+              props: {
+                text: content.trustedByLeaders,
+                level: "h2",
+              },
+            },
+            {
+              type: "Text",
+              props: {
+                text: content.trustedCompanies,
+              },
+            },
+          ],
+          root: { props: {} },
+          zones: {},
+        };
+      
+      default:
+        return templates.find(t => t.id === templateId)?.data || { content: [], root: { props: {} }, zones: {} };
+    }
+  };
 
   const handleTemplateSelect = (template: typeof templates[0]) => {
-    // Save template data to localStorage
-    localStorage.setItem("puck-data", JSON.stringify(template.data));
+    // Create localized template data
+    const localizedData = createLocalizedTemplateData(template.id);
+    const dataWithIds = addIdsToTemplate(localizedData);
+    
+    // Save localized template data to localStorage
+    localStorage.setItem("puck-data", JSON.stringify(dataWithIds));
     // Navigate to editor
     navigate("/editor");
   };
@@ -381,7 +693,7 @@ export function TemplatePage() {
               fontWeight: "bold",
             }}
           >
-            ← Back to Home
+            ← {t('templatePage.backToHome')}
           </button>
           
           <h1 style={{
@@ -390,10 +702,12 @@ export function TemplatePage() {
             color: "#333",
             margin: "0",
           }}>
-            Choose Your Template
+            {t('templatePage.title')}
           </h1>
           
-          <div style={{ width: "120px" }}></div> {/* Spacer for centering */}
+          <div style={{ width: "120px", display: "flex", justifyContent: "flex-end" }}>
+            <LanguageSwitcher />
+          </div>
         </div>
 
         {/* Templates Grid */}
@@ -442,7 +756,7 @@ export function TemplatePage() {
                 marginBottom: "10px",
                 textAlign: "center",
               }}>
-                {template.name}
+                {t(`templatePage.templates.${template.id}.name`)}
               </h3>
               
               <p style={{
@@ -451,7 +765,7 @@ export function TemplatePage() {
                 lineHeight: "1.6",
                 marginBottom: "20px",
               }}>
-                {template.description}
+                {t(`templatePage.templates.${template.id}.description`)}
               </p>
               
               <button
@@ -474,7 +788,7 @@ export function TemplatePage() {
                   e.currentTarget.style.backgroundColor = "#667eea";
                 }}
               >
-                Use This Template
+                {t('templatePage.useThisTemplate')}
               </button>
             </div>
           ))}
@@ -492,7 +806,7 @@ export function TemplatePage() {
             color: "#333",
             marginBottom: "15px",
           }}>
-            ✨ All Templates Include
+            ✨ {t('templatePage.allTemplatesInclude')}
           </h3>
           <div style={{
             display: "grid",
@@ -500,10 +814,10 @@ export function TemplatePage() {
             gap: "15px",
             color: "#666",
           }}>
-            <div>📱 Fully Responsive</div>
-            <div>🎨 Modern Design</div>
-            <div>⚡ Fast Loading</div>
-            <div>🔧 Easy to Customize</div>
+            <div>📱 {t('templatePage.fullyResponsive')}</div>
+            <div>🎨 {t('templatePage.modernDesign')}</div>
+            <div>⚡ {t('templatePage.fastLoading')}</div>
+            <div>🔧 {t('templatePage.easyToCustomize')}</div>
           </div>
         </div>
       </div>

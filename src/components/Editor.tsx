@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Puck, type Data } from "@measured/puck";
 import "@measured/puck/puck.css";
-import config from "../config/puck";
+import { createLocalizedPuckConfig } from "../config/puck-localized";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 
 
@@ -21,8 +23,12 @@ const save = (data: Data) => {
 // Editor component with AI integration
 export function Editor() {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [currentData, setCurrentData] = useState<Data>(initialData);
   const [puckKey, setPuckKey] = useState(0);
+  
+  // Create localized config that updates when language changes
+  const config = createLocalizedPuckConfig(t);
 
 
   // Load data from localStorage on component mount
@@ -38,6 +44,11 @@ export function Editor() {
       }
     }
   }, []);
+
+  // Force Puck to re-render when language changes
+  useEffect(() => {
+    setPuckKey(prev => prev + 1);
+  }, [i18n.language]);
 
   const handleLoadFromStorage = () => {
     const saved = localStorage.getItem("puck-data");
@@ -74,8 +85,10 @@ export function Editor() {
         color: "white",
         display: "flex",
         gap: "10px",
-        alignItems: "center"
+        alignItems: "center",
+        justifyContent: "space-between",
       }}>
+        <div style={{ display: "flex", gap: "10px" }}>
         <button
           onClick={handleLoadFromStorage}
           style={{
@@ -88,7 +101,7 @@ export function Editor() {
             fontWeight: "bold"
           }}
         >
-          📁 Load Saved
+          📁 {t('editor.loadSaved')}
         </button>
         <button
           onClick={handleBackToHome}
@@ -102,9 +115,11 @@ export function Editor() {
             fontWeight: "bold"
           }}
         >
-          🏠 Back to Home
+          🏠 {t('editor.backToHome')}
         </button>
-
+        </div>
+        
+        <LanguageSwitcher />
       </div>
 
       {/* Puck Editor */}

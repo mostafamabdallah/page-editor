@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function LandingPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleCreateFromScratch = () => {
     navigate("/editor");
@@ -28,7 +31,16 @@ export function LandingPage() {
         textAlign: "center",
         maxWidth: "600px",
         width: "100%",
+        position: "relative",
       }}>
+        {/* Language Switcher */}
+        <div style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+        }}>
+          <LanguageSwitcher />
+        </div>
         <h1 style={{
           fontSize: "3rem",
           fontWeight: "bold",
@@ -38,7 +50,7 @@ export function LandingPage() {
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
         }}>
-          Landing Page Builder
+          {t('landingPage.title')}
         </h1>
         
         <p style={{
@@ -47,8 +59,7 @@ export function LandingPage() {
           marginBottom: "40px",
           lineHeight: "1.6",
         }}>
-          Create stunning landing pages with our powerful drag-and-drop editor. 
-          Start from scratch or choose from our beautiful templates.
+          {t('landingPage.subtitle')}
         </p>
 
         <div style={{
@@ -81,7 +92,7 @@ export function LandingPage() {
               e.currentTarget.style.boxShadow = "0 4px 15px rgba(102, 126, 234, 0.3)";
             }}
           >
-            🚀 Create from Scratch
+            🚀 {t('landingPage.createFromScratch')}
           </button>
 
           <button
@@ -108,7 +119,7 @@ export function LandingPage() {
               e.currentTarget.style.boxShadow = "0 4px 15px rgba(118, 75, 162, 0.3)";
             }}
           >
-            🎨 Choose Template
+            🎨 {t('landingPage.chooseTemplate')}
           </button>
         </div>
 
@@ -124,7 +135,7 @@ export function LandingPage() {
             color: "#333",
             fontSize: "1.1rem",
           }}>
-            ✨ Features
+            ✨ {t('landingPage.features')}
           </h3>
           <div style={{
             display: "grid",
@@ -133,10 +144,10 @@ export function LandingPage() {
             fontSize: "0.9rem",
             color: "#666",
           }}>
-            <div>🎯 Drag & Drop</div>
-            <div>📱 Responsive</div>
-            <div>🎨 Beautiful Templates</div>
-            <div>⚡ Fast Loading</div>
+            <div>🎯 {t('landingPage.dragDrop')}</div>
+            <div>📱 {t('landingPage.responsive')}</div>
+            <div>🎨 {t('landingPage.beautifulTemplates')}</div>
+            <div>⚡ {t('landingPage.fastLoading')}</div>
           </div>
         </div>
       </div>
