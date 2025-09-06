@@ -28,7 +28,7 @@ const addIdsToTemplate = (templateData: { content: Array<{ type: string; props: 
   };
 
   const content = processContent(templateData.content);
-  
+
   return {
     ...templateData,
     content
@@ -45,308 +45,412 @@ const templates = [
     data: {
       content: [
         {
-          type: "Hero",
+          type: "Container",
           props: {
-            id: "hero-1",
-            title: "Smart Application For Modern People",
-            subtitle: "Transform your business with our cutting-edge platform. Join thousands of companies already growing with us. Experience the future of productivity today.",
-            buttonText: "Explore Options",
-            buttonLink: "#",
+            id: "container-hero-1",
             backgroundColor: "#000000",
-            textColor: "#ffffff",
-            height: "600px",
-            backgroundImage: "/images/hero-bg.jpg",
-          },
-        },
-        {
-          type: "AppMockup",
-          props: {
-            id: "app-mockup-1",
-            imageUrl: "/images/app-mockup.png",
-            altText: "App Mockup",
-            width: "300px",
-            position: "right",
-          },
-        },
-        {
-          type: "Heading",
-          props: {
-            id: "heading-1",
-            text: "Condimentum Mattis Pellentesque Dnibus Tortyga",
-            level: "h2",
-          },
-        },
-        {
-          type: "Text",
-          props: {
-            id: "text-1",
-            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
-            align: "center",
-            fontSize: "18px",
-            color: "#666666",
-          },
-        },
-        {
-          type: "Grid",
-          props: {
-            id: "features-grid-1",
-            columns: "3",
-            gap: "24px",
+            padding: "0",
             content: [
               {
-                type: "FeatureCard",
+                type: "Hero",
                 props: {
-                  id: "feature-card-1",
-                  icon: "🚀",
-                  title: "Smart and Intuitive",
-                  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                  color: "#f8f9fa",
-                },
-              },
-              {
-                type: "FeatureCard",
-                props: {
-                  id: "feature-card-2",
-                  icon: "⚡",
-                  title: "Lightning Fast",
-                  description: "Built for speed and performance. Your users will love the experience. Enterprise-grade security with 99.9% uptime guarantee.",
-                  color: "#f8f9fa",
-                },
-              },
-              {
-                type: "FeatureCard",
-                props: {
-                  id: "feature-card-3",
-                  icon: "🔒",
-                  title: "Secure & Reliable",
-                  description: "Enterprise-grade security with 99.9% uptime guarantee. Grows with your business. No limits, no compromises.",
-                  color: "#f8f9fa",
-                },
-              },
-              {
-                type: "FeatureCard",
-                props: {
-                  id: "feature-card-4",
-                  icon: "📈",
-                  title: "Scale Easily",
-                  description: "Grows with your business. No limits, no compromises. Built for speed and performance. Your users will love the experience.",
-                  color: "#f8f9fa",
-                },
-              },
-              {
-                type: "FeatureCard",
-                props: {
-                  id: "feature-card-5",
-                  icon: "🌱",
-                  title: "Eco Friendly",
-                  description: "Sustainable technology solutions that help reduce your carbon footprint while maintaining top performance.",
-                  color: "#f8f9fa",
-                },
-              },
-              {
-                type: "FeatureCard",
-                props: {
-                  id: "feature-card-6",
-                  icon: "⚙️",
-                  title: "Easy Setup",
-                  description: "Get started in minutes with our intuitive setup process. No technical expertise required.",
-                  color: "#f8f9fa",
-                },
-              },
-            ],
-          },
-        },
-        {
-          type: "Heading",
-          props: {
-            id: "heading-2",
-            text: "How The App Works",
-            level: "h2",
-          },
-        },
-        {
-          type: "Text",
-          props: {
-            id: "text-2",
-            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            align: "center",
-            fontSize: "18px",
-            color: "#666666",
-          },
-        },
-        {
-          type: "Grid",
-          props: {
-            id: "steps-grid-1",
-            columns: "2",
-            gap: "32px",
-            content: [
-              {
-                type: "Card",
-                props: {
-                  id: "step-card-1",
-                  title: "1. Turpis egestas sed",
-                  content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                  imageUrl: "/images/step1.jpg",
-                },
-              },
-              {
-                type: "Card",
-                props: {
-                  id: "step-card-2",
-                  title: "2. Egestas diam in dignissim",
-                  content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                  imageUrl: "/images/step2.jpg",
-                },
-              },
-              {
-                type: "Card",
-                props: {
-                  id: "step-card-3",
-                  title: "3. Bibendum at varius",
-                  content: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                  imageUrl: "/images/step3.jpg",
-                },
-              },
-              {
-                type: "Card",
-                props: {
-                  id: "step-card-4",
-                  title: "4. Fermentum leo vel orci",
-                  content: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                  imageUrl: "/images/step4.jpg",
-                },
-              },
-            ],
-          },
-        },
-        {
-          type: "StatsSection",
-          props: {
-            id: "stats-section-1",
-            title: "Some Tech Specs",
-            subtitle: "Numbers that speak for themselves",
-            backgroundColor: "#f8f9fa",
-            stats: "90% Massa dictum convallis\n85% Pellentesque habitant morbi\n95% Tristique senectus et netus\n88% Malesuada fames ac turpis",
-          },
-        },
-        {
-          type: "Heading",
-          props: {
-            id: "heading-3",
-            text: "Our Simple Straight-Forward Pricing",
-            level: "h2",
-          },
-        },
-        {
-          type: "Text",
-          props: {
-            id: "text-3",
-            text: "Choose the plan that works best for your business. No hidden fees, no surprises.",
-            align: "center",
-            fontSize: "18px",
-            color: "#666666",
-          },
-        },
-        {
-          type: "Flex",
-          props: {
-            id: "pricing-flex-1",
-            direction: "row",
-            justify: "center",
-            align: "stretch",
-            gap: "32px",
-            wrap: "wrap",
-            content: [
-              {
-                type: "PricingCard",
-                props: {
-                  id: "pricing-card-1",
-                  planName: "Free Plan",
-                  price: "$0",
-                  period: "Forever",
-                  features: "100GB Storage\nLimited Bandwidth\nBasic Support\nStandard Templates",
-                  buttonText: "Get Started",
+                  id: "hero-1",
+                  title: "Smart Application For Modern People",
+                  subtitle: "Transform your business with our cutting-edge platform. Join thousands of companies already growing with us. Experience the future of productivity today.",
+                  buttonText: "Explore Options",
                   buttonLink: "#",
-                  popular: "false",
-                },
-              },
-              {
-                type: "PricingCard",
-                props: {
-                  id: "pricing-card-2",
-                  planName: "Pro Plan",
-                  price: "$30",
-                  period: "per month",
-                  features: "500GB Storage\nUnlimited Bandwidth\nPriority Support\nPremium Templates\nAdvanced Analytics",
-                  buttonText: "Get Started",
-                  buttonLink: "#",
-                  popular: "true",
+                  backgroundColor: "#000000",
+                  textColor: "#ffffff",
+                  height: "600px",
+                  backgroundImage: "/images/hero-bg.jpg",
                 },
               },
             ],
           },
         },
         {
-          type: "Heading",
+          type: "Container",
           props: {
-            id: "heading-4",
-            text: "Our Users Love Our App!",
-            level: "h2",
-          },
-        },
-        {
-          type: "Grid",
-          props: {
-            id: "testimonials-grid-1",
-            columns: "3",
-            gap: "24px",
+            id: "container-app-mockup-1",
+            backgroundColor: "#ffffff",
+            padding: "80px 20px",
             content: [
               {
-                type: "Testimonial",
+                type: "AppMockup",
                 props: {
-                  id: "testimonial-1",
-                  quote: "This platform transformed our business. We've seen 300% growth in just 6 months!",
-                  author: "Anna Pearson",
-                  role: "App Developer",
-                  rating: "5",
-                  avatar: "/images/avatar1.jpg",
-                },
-              },
-              {
-                type: "Testimonial",
-                props: {
-                  id: "testimonial-2",
-                  quote: "Outstanding service and expertise. They helped us streamline our operations significantly.",
-                  author: "Michael Anderson",
-                  role: "Great Support",
-                  rating: "5",
-                  avatar: "/images/avatar2.jpg",
-                },
-              },
-              {
-                type: "Testimonial",
-                props: {
-                  id: "testimonial-3",
-                  quote: "The best investment we've made for our startup. Highly recommended!",
-                  author: "Sarah Johnson",
-                  role: "CEO, TechStart",
-                  rating: "5",
-                  avatar: "/images/avatar3.jpg",
+                  id: "app-mockup-1",
+                  imageUrl: "/images/app-mockup.png",
+                  altText: "App Mockup",
+                  width: "300px",
+                  position: "right",
                 },
               },
             ],
           },
         },
         {
-          type: "DownloadSection",
+          type: "Container",
           props: {
-            id: "download-section-1",
-            title: "Download Our App Now",
-            subtitle: "Available on iOS and Android. Get started today and experience the future of productivity.",
-            backgroundColor: "#f8f9fa",
-            appStoreUrl: "#",
-            playStoreUrl: "#",
+            id: "container-heading-text-1",
+            backgroundColor: "#000000",
+            padding: "80px 20px",
+            content: [
+              {
+                type: "Heading",
+                props: {
+                  id: "heading-1",
+                  text: "Condimentum Mattis Pellentesque Dnibus Tortyga",
+                  level: "h2",
+                  textColor: "#ffffff",
+                },
+              },
+              {
+                type: "Text",
+                props: {
+                  id: "text-1",
+                  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+                  align: "center",
+                  fontSize: "18px",
+                  color: "#cccccc",
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "Container",
+          props: {
+            id: "container-features-1",
+            backgroundColor: "#ffffff",
+            padding: "80px 20px",
+            content: [
+              {
+                type: "Grid",
+                props: {
+                  id: "features-grid-1",
+                  columns: "3",
+                  gap: "24px",
+                  content: [
+                    {
+                      type: "FeatureCard",
+                      props: {
+                        id: "feature-card-1",
+                        icon: "🚀",
+                        title: "Smart and Intuitive",
+                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        color: "#f8f9fa",
+                      },
+                    },
+                    {
+                      type: "FeatureCard",
+                      props: {
+                        id: "feature-card-2",
+                        icon: "⚡",
+                        title: "Lightning Fast",
+                        description: "Built for speed and performance. Your users will love the experience. Enterprise-grade security with 99.9% uptime guarantee.",
+                        color: "#f8f9fa",
+                      },
+                    },
+                    {
+                      type: "FeatureCard",
+                      props: {
+                        id: "feature-card-3",
+                        icon: "🔒",
+                        title: "Secure & Reliable",
+                        description: "Enterprise-grade security with 99.9% uptime guarantee. Grows with your business. No limits, no compromises.",
+                        color: "#f8f9fa",
+                      },
+                    },
+                    {
+                      type: "FeatureCard",
+                      props: {
+                        id: "feature-card-4",
+                        icon: "📈",
+                        title: "Scale Easily",
+                        description: "Grows with your business. No limits, no compromises. Built for speed and performance. Your users will love the experience.",
+                        color: "#f8f9fa",
+                      },
+                    },
+                    {
+                      type: "FeatureCard",
+                      props: {
+                        id: "feature-card-5",
+                        icon: "🌱",
+                        title: "Eco Friendly",
+                        description: "Sustainable technology solutions that help reduce your carbon footprint while maintaining top performance.",
+                        color: "#f8f9fa",
+                      },
+                    },
+                    {
+                      type: "FeatureCard",
+                      props: {
+                        id: "feature-card-6",
+                        icon: "⚙️",
+                        title: "Easy Setup",
+                        description: "Get started in minutes with our intuitive setup process. No technical expertise required.",
+                        color: "#f8f9fa",
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "Container",
+          props: {
+            id: "container-how-it-works-1",
+            backgroundColor: "#000000",
+            padding: "80px 20px",
+            content: [
+              {
+                type: "Heading",
+                props: {
+                  id: "heading-2",
+                  text: "How The App Works",
+                  level: "h2",
+                  textColor: "#ffffff",
+                },
+              },
+              {
+                type: "Text",
+                props: {
+                  id: "text-2",
+                  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                  align: "center",
+                  fontSize: "18px",
+                  color: "#cccccc",
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "Container",
+          props: {
+            id: "container-steps-1",
+            backgroundColor: "#ffffff",
+            padding: "80px 20px",
+            content: [
+              {
+                type: "Grid",
+                props: {
+                  id: "steps-grid-1",
+                  columns: "2",
+                  gap: "32px",
+                  content: [
+                    {
+                      type: "Card",
+                      props: {
+                        id: "step-card-1",
+                        title: "1. Turpis egestas sed",
+                        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        imageUrl: "/images/1.svg",
+                      },
+                    },
+                    {
+                      type: "Card",
+                      props: {
+                        id: "step-card-2",
+                        title: "2. Egestas diam in dignissim",
+                        content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                        imageUrl: "/images/2.svg",
+                      },
+                    },
+                    {
+                      type: "Card",
+                      props: {
+                        id: "step-card-3",
+                        title: "3. Bibendum at varius",
+                        content: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                        imageUrl: "/images/3.svg",
+                      },
+                    },
+                    {
+                      type: "Card",
+                      props: {
+                        id: "step-card-4",
+                        title: "4. Fermentum leo vel orci",
+                        content: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                        imageUrl: "/images/4.svg",
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "Container",
+          props: {
+            id: "container-stats-1",
+            backgroundColor: "#000000",
+            padding: "80px 20px",
+            content: [
+              {
+                type: "StatsSection",
+                props: {
+                  id: "stats-section-1",
+                  title: "Some Tech Specs",
+                  subtitle: "Numbers that speak for themselves",
+                  backgroundColor: "#000000",
+                  textColor: "#ffffff",
+                  stats: "90% Massa dictum convallis\n85% Pellentesque habitant morbi\n95% Tristique senectus et netus\n88% Malesuada fames ac turpis",
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "Container",
+          props: {
+            id: "container-pricing-1",
+            backgroundColor: "#ffffff",
+            padding: "80px 20px",
+            content: [
+              {
+                type: "Heading",
+                props: {
+                  id: "heading-3",
+                  text: "Our Simple Straight-Forward Pricing",
+                  level: "h2",
+                },
+              },
+              {
+                type: "Text",
+                props: {
+                  id: "text-3",
+                  text: "Choose the plan that works best for your business. No hidden fees, no surprises.",
+                  align: "center",
+                  fontSize: "18px",
+                  color: "#666666",
+                },
+              },
+              {
+                type: "Flex",
+                props: {
+                  id: "pricing-flex-1",
+                  direction: "row",
+                  justify: "center",
+                  align: "stretch",
+                  gap: "32px",
+                  wrap: "wrap",
+                  content: [
+                    {
+                      type: "PricingCard",
+                      props: {
+                        id: "pricing-card-1",
+                        planName: "Free Plan",
+                        price: "$0",
+                        period: "Forever",
+                        features: "100GB Storage\nLimited Bandwidth\nBasic Support\nStandard Templates",
+                        buttonText: "Get Started",
+                        buttonLink: "#",
+                        popular: "false",
+                      },
+                    },
+                    {
+                      type: "PricingCard",
+                      props: {
+                        id: "pricing-card-2",
+                        planName: "Pro Plan",
+                        price: "$30",
+                        period: "per month",
+                        features: "500GB Storage\nUnlimited Bandwidth\nPriority Support\nPremium Templates\nAdvanced Analytics",
+                        buttonText: "Get Started",
+                        buttonLink: "#",
+                        popular: "true",
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "Container",
+          props: {
+            id: "container-testimonials-1",
+            backgroundColor: "#000000",
+            padding: "80px 20px",
+            content: [
+              {
+                type: "Heading",
+                props: {
+                  id: "heading-4",
+                  text: "Our Users Love Our App!",
+                  level: "h2",
+                  textColor: "#ffffff",
+                },
+              },
+              {
+                type: "Grid",
+                props: {
+                  id: "testimonials-grid-1",
+                  columns: "3",
+                  gap: "24px",
+                  content: [
+                    {
+                      type: "Testimonial",
+                      props: {
+                        id: "testimonial-1",
+                        quote: "This platform transformed our business. We've seen 300% growth in just 6 months!",
+                        author: "Anna Pearson",
+                        role: "App Developer",
+                        rating: "5",
+                        avatar: "/images/avatar1.jpg",
+                      },
+                    },
+                    {
+                      type: "Testimonial",
+                      props: {
+                        id: "testimonial-2",
+                        quote: "Outstanding service and expertise. They helped us streamline our operations significantly.",
+                        author: "Michael Anderson",
+                        role: "Great Support",
+                        rating: "5",
+                        avatar: "/images/avatar2.jpg",
+                      },
+                    },
+                    {
+                      type: "Testimonial",
+                      props: {
+                        id: "testimonial-3",
+                        quote: "The best investment we've made for our startup. Highly recommended!",
+                        author: "Sarah Johnson",
+                        role: "CEO, TechStart",
+                        rating: "5",
+                        avatar: "/images/avatar3.jpg",
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "Container",
+          props: {
+            id: "container-download-1",
+            backgroundColor: "#ffffff",
+            padding: "80px 20px",
+            content: [
+              {
+                type: "DownloadSection",
+                props: {
+                  id: "download-section-1",
+                  title: "Download Our App Now",
+                  subtitle: "Available on iOS and Android. Get started today and experience the future of productivity.",
+                  backgroundColor: "#ffffff",
+                  appStoreUrl: "#",
+                  playStoreUrl: "#",
+                },
+              },
+            ],
           },
         },
       ],
@@ -602,140 +706,189 @@ export function TemplatePage() {
   // Function to create localized template data
   const createLocalizedTemplateData = (templateId: string) => {
     const content = t(`templatePage.templates.${templateId}.content`, { returnObjects: true }) as Record<string, string>;
-    
+
     switch (templateId) {
       case "startup":
         return {
           content: [
             {
-              type: "Hero",
+              type: "Container",
               props: {
-                id: "hero-1",
-                title: "Smart Application For Modern People",
-                subtitle: "Transform your business with our cutting-edge platform. Join thousands of companies already growing with us. Experience the future of productivity today.",
-                buttonText: "Explore Options",
-                buttonLink: "#",
-                backgroundColor: "#000000",
-                textColor: "#ffffff",
-                height: "600px",
-                backgroundImage: "/images/hero-bg.jpg",
-              },
-            },
-            {
-              type: "AppMockup",
-              props: {
-                id: "app-mockup-1",
-                imageUrl: "/images/app-mockup.png",
-                altText: "App Mockup",
-                width: "300px",
-                position: "right",
-              },
-            },
-            {
-              type: "Heading",
-              props: {
-                id: "heading-1",
-                text: "Condimentum Mattis Pellentesque Dnibus Tortyga",
-                level: "h2",
-              },
-            },
-            {
-              type: "Text",
-              props: {
-                id: "text-1",
-                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
-                align: "center",
-                fontSize: "18px",
-                color: "#666666",
-              },
-            },
-            {
-              type: "Grid",
-              props: {
-                id: "features-grid-1",
-                columns: "3",
-                gap: "24px",
+                id: "container-hero-1",
+                padding: "0",
                 content: [
                   {
-                    type: "FeatureCard",
+                    type: "Hero",
                     props: {
-                      icon: "🚀",
-                      title: "Smart and Intuitive",
-                      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                      color: "#f8f9fa",
-                    },
-                  },
-                  {
-                    type: "FeatureCard",
-                    props: {
-                      icon: "⚡",
-                      title: "Lightning Fast",
-                      description: "Built for speed and performance. Your users will love the experience. Enterprise-grade security with 99.9% uptime guarantee.",
-                      color: "#f8f9fa",
-                    },
-                  },
-                  {
-                    type: "FeatureCard",
-                    props: {
-                      icon: "🔒",
-                      title: "Secure & Reliable",
-                      description: "Enterprise-grade security with 99.9% uptime guarantee. Grows with your business. No limits, no compromises.",
-                      color: "#f8f9fa",
-                    },
-                  },
-                  {
-                    type: "FeatureCard",
-                    props: {
-                      icon: "📈",
-                      title: "Scale Easily",
-                      description: "Grows with your business. No limits, no compromises. Built for speed and performance. Your users will love the experience.",
-                      color: "#f8f9fa",
-                    },
-                  },
-                  {
-                    type: "FeatureCard",
-                    props: {
-                      icon: "🌱",
-                      title: "Eco Friendly",
-                      description: "Sustainable technology solutions that help reduce your carbon footprint while maintaining top performance.",
-                      color: "#f8f9fa",
-                    },
-                  },
-                  {
-                    type: "FeatureCard",
-                    props: {
-                      icon: "⚙️",
-                      title: "Easy Setup",
-                      description: "Get started in minutes with our intuitive setup process. No technical expertise required.",
-                      color: "#f8f9fa",
+                      id: "hero-1",
+                      title: "Smart Application For Modern People",
+                      subtitle: "Transform your business with our cutting-edge platform. Join thousands of companies already growing with us. Experience the future of productivity today.",
+                      buttonText: "Explore Options",
+                      buttonLink: "#",
+                      backgroundColor: "#000000",
+                      textColor: "#ffffff",
+                      height: "600px",
+                      backgroundImage: "/images/hero-bg.jpg",
                     },
                   },
                 ],
               },
             },
             {
-              type: "Heading",
+              type: "Container",
               props: {
-                id: "heading-2",
-                text: "How The App Works",
-                level: "h2",
+                id: "container-app-mockup-1",
+                backgroundColor: "#ffffff",
+                padding: "80px 20px",
+                content: [
+                  {
+                    type: "AppMockup",
+                    props: {
+                      id: "app-mockup-1",
+                      imageUrl: "/images/app-mockup.png",
+                      altText: "App Mockup",
+                      width: "300px",
+                      position: "right",
+                    },
+                  },
+                ],
               },
             },
             {
-              type: "Text",
+              type: "Container",
               props: {
-                id: "text-2",
-                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                align: "center",
-                fontSize: "18px",
-                color: "#666666",
+                id: "container-heading-text-1",
+                padding: "80px 20px",
+                content: [
+                  {
+                    type: "Heading",
+                    props: {
+                      id: "heading-1",
+                      text: "Condimentum Mattis Pellentesque Dnibus Tortyga",
+                      level: "h2",
+                      textColor: "#cccccc",
+                    },
+                  },
+                  {
+                    type: "Text",
+                    props: {
+                      id: "text-1",
+                      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+                      align: "center",
+                      fontSize: "18px",
+                      color: "#cccccc",
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              type: "Container",
+              props: {
+                id: "container-features-1",
+                backgroundColor: "black",
+                padding: "80px 20px",
+                content: [
+                  {
+                    type: "Grid",
+                    props: {
+                      id: "features-grid-1",
+                      columns: "3",
+                      gap: "24px",
+                      backgroundColor: "black",
+                      content: [
+                        {
+                          type: "FeatureCard",
+                          props: {
+                            icon: "🚀",
+                            title: "Smart and Intuitive",
+                            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                            color: "#e3f2fd",
+                          },
+                        },
+                        {
+                          type: "FeatureCard",
+                          props: {
+                            icon: "⚡",
+                            title: "Lightning Fast",
+                            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                            color: "#fff3e0",
+                          },
+                        },
+                        {
+                          type: "FeatureCard",
+                          props: {
+                            icon: "🔒",
+                            title: "Secure & Reliable",
+                            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                            color: "#e8f5e8",
+                          },
+                        },
+                        {
+                          type: "FeatureCard",
+                          props: {
+                            icon: "📈",
+                            title: "Scale Easily",
+                            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                            color: "#f3e5f5",
+                          },
+                        },
+                        {
+                          type: "FeatureCard",
+                          props: {
+                            icon: "🌱",
+                            title: "Eco Friendly",
+                            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                            color: "#e8f5e8",
+                          },
+                        },
+                        {
+                          type: "FeatureCard",
+                          props: {
+                            icon: "⚙️",
+                            title: "Easy Setup",
+                            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                            color: "#f3e5f5",
+                          },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              type: "Container",
+              props: {
+                id: "container-how-it-works-1",
+                content: [
+                  {
+                    type: "Heading",
+                    props: {
+                      id: "heading-2",
+                      text: "How The App Works",
+                      level: "h2",
+                      textColor: "#ffffff",
+                    },
+                  },
+                  {
+                    type: "Text",
+                    props: {
+                      id: "text-2",
+                      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                      align: "center",
+                      fontSize: "18px",
+                      color: "#cccccc",
+                    },
+                  },
+                ],
               },
             },
             {
               type: "Grid",
               props: {
                 id: "steps-grid-1",
-                columns: "2",
+                columns: "4",
                 gap: "32px",
                 content: [
                   {
@@ -743,7 +896,7 @@ export function TemplatePage() {
                     props: {
                       title: "1. Turpis egestas sed",
                       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                      imageUrl: "/images/step1.jpg",
+                      imageUrl: "/images/1.jpg",
                     },
                   },
                   {
@@ -751,7 +904,7 @@ export function TemplatePage() {
                     props: {
                       title: "2. Egestas diam in dignissim",
                       content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                      imageUrl: "/images/step2.jpg",
+                      imageUrl: "/images/2.jpg",
                     },
                   },
                   {
@@ -759,7 +912,7 @@ export function TemplatePage() {
                     props: {
                       title: "3. Bibendum at varius",
                       content: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                      imageUrl: "/images/step3.jpg",
+                      imageUrl: "/images/3.jpg",
                     },
                   },
                   {
@@ -767,7 +920,7 @@ export function TemplatePage() {
                     props: {
                       title: "4. Fermentum leo vel orci",
                       content: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                      imageUrl: "/images/step4.jpg",
+                      imageUrl: "/images/4.jpg",
                     },
                   },
                 ],
@@ -779,7 +932,7 @@ export function TemplatePage() {
                 id: "stats-section-1",
                 title: "Some Tech Specs",
                 subtitle: "Numbers that speak for themselves",
-                backgroundColor: "#f8f9fa",
+                backgroundColor: "#111518",
                 stats: "90% Massa dictum convallis\n85% Pellentesque habitant morbi\n95% Tristique senectus et netus\n88% Malesuada fames ac turpis",
               },
             },
@@ -833,6 +986,18 @@ export function TemplatePage() {
                       buttonText: "Get Started",
                       buttonLink: "#",
                       popular: "true",
+                    },
+                  },
+                  {
+                    type: "PricingCard",
+                    props: {
+                      planName: "Advanced Plan",
+                      price: "$0",
+                      period: "Forever",
+                      features: "100GB Storage\nLimited Bandwidth\nBasic Support\nStandard Templates",
+                      buttonText: "Get Started",
+                      buttonLink: "#",
+                      popular: "false",
                     },
                   },
                 ],
@@ -901,7 +1066,7 @@ export function TemplatePage() {
           root: { props: {} },
           zones: {},
         };
-      
+
       case "portfolio":
         return {
           content: [
@@ -978,7 +1143,7 @@ export function TemplatePage() {
           root: { props: {} },
           zones: {},
         };
-      
+
       case "business":
         return {
           content: [
@@ -1049,7 +1214,7 @@ export function TemplatePage() {
           root: { props: {} },
           zones: {},
         };
-      
+
       case "saas":
         return {
           content: [
@@ -1125,7 +1290,7 @@ export function TemplatePage() {
           root: { props: {} },
           zones: {},
         };
-      
+
       default:
         return templates.find(t => t.id === templateId)?.data || { content: [], root: { props: {} }, zones: {} };
     }
@@ -1135,7 +1300,7 @@ export function TemplatePage() {
     // Create localized template data
     const localizedData = createLocalizedTemplateData(template.id);
     const dataWithIds = addIdsToTemplate(localizedData);
-    
+
     // Save localized template data to localStorage
     localStorage.setItem("puck-data", JSON.stringify(dataWithIds));
     // Navigate to editor
@@ -1181,7 +1346,7 @@ export function TemplatePage() {
           >
             ← {t('templatePage.backToHome')}
           </button>
-          
+
           <h1 style={{
             fontSize: "2.5rem",
             fontWeight: "bold",
@@ -1190,7 +1355,7 @@ export function TemplatePage() {
           }}>
             {t('templatePage.title')}
           </h1>
-          
+
           <div style={{ width: "120px", display: "flex", justifyContent: isRTL ? "flex-start" : "flex-end" }}>
             <LanguageSwitcher />
           </div>
@@ -1234,7 +1399,7 @@ export function TemplatePage() {
               }}>
                 {template.preview}
               </div>
-              
+
               <h3 style={{
                 fontSize: "1.5rem",
                 fontWeight: "bold",
@@ -1244,7 +1409,7 @@ export function TemplatePage() {
               }}>
                 {t(`templatePage.templates.${template.id}.name`)}
               </h3>
-              
+
               <p style={{
                 color: "#666",
                 textAlign: "center",
@@ -1253,7 +1418,7 @@ export function TemplatePage() {
               }}>
                 {t(`templatePage.templates.${template.id}.description`)}
               </p>
-              
+
               <button
                 style={{
                   width: "100%",

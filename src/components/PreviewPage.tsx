@@ -87,14 +87,14 @@ export function PreviewPage() {
 </html>`;
   };
 
-  const generateComponentHTML = (components: Array<{ type: string; props?: Record<string, unknown> }>) => {
+  const generateComponentHTML = (components: Array<{ type: string; props?: Record<string, unknown> }>): string => {
     if (!components || components.length === 0) {
       return '<div style="padding: 40px; text-align: center; color: #666;">No content to display</div>';
     }
     
     const isRTL = i18n.language === 'ar';
     
-    return components.map((component) => {
+    return components.map((component): string => {
       if (!component || !component.type) return '';
       
       switch (component.type) {
@@ -244,6 +244,37 @@ export function PreviewPage() {
               <button type="submit" style="width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.3s ease;">${component.props?.submitButtonText || 'Send Message'}</button>
             </form>
           </div>`;
+        
+        case 'Grid': {
+          const contentHtml: string = Array.isArray(component.props?.content) 
+            ? component.props.content.map((child: any): string => generateComponentHTML([child])).join('')
+            : '';
+          return `<div style="display: grid; grid-template-columns: repeat(${component.props?.columns || '3'}, 1fr); gap: ${component.props?.gap || '24px'}; background-color: ${component.props?.backgroundColor || '#fafafa'}; margin: 20px 0; padding: 10px; border-radius: 8px; direction: ${isRTL ? 'rtl' : 'ltr'};">
+            ${contentHtml}
+          </div>`;
+        }
+        
+        case 'Flex': {
+          const contentHtml: string = Array.isArray(component.props?.content) 
+            ? component.props.content.map((child: any): string => generateComponentHTML([child])).join('')
+            : '';
+          const flexDirection = component.props?.direction === 'column' ? 'column' : 'row';
+          const justifyContent = component.props?.justify || 'flex-start';
+          const alignItems = component.props?.align || 'stretch';
+          const flexWrap = component.props?.wrap || 'nowrap';
+          return `<div style="display: flex; flex-direction: ${flexDirection}; justify-content: ${justifyContent}; align-items: ${alignItems}; flex-wrap: ${flexWrap}; gap: ${component.props?.gap || '16px'}; margin: 20px 0; direction: ${isRTL ? 'rtl' : 'ltr'};">
+            ${contentHtml}
+          </div>`;
+        }
+        
+        case 'Container': {
+          const contentHtml: string = Array.isArray(component.props?.content) 
+            ? component.props.content.map((child: any): string => generateComponentHTML([child])).join('')
+            : '';
+          return `<div style="background-color: ${component.props?.backgroundColor || '#ffffff'}; padding: ${component.props?.padding || '40px 20px'}; direction: ${isRTL ? 'rtl' : 'ltr'};">
+            ${contentHtml}
+          </div>`;
+        }
         
         default:
           return `<div style="padding: 20px; border: 2px dashed #d1d5db; text-align: center; color: #6b7280; border-radius: 8px;">Unknown component: ${component.type}</div>`;

@@ -690,6 +690,10 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
               { label: t('puck.components.grid.extraLarge'), value: "32px" },
             ],
           },
+          backgroundColor: {
+            type: "text",
+            label: t('puck.components.grid.backgroundColor'),
+          },
           content: {
             type: "slot",
           },
@@ -697,8 +701,9 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
         defaultProps: {
           columns: "3",
           gap: "16px",
+          backgroundColor: "#fafafa",
         },
-        render: ({ columns, gap, content: Content }) => {
+        render: ({ columns, gap, backgroundColor, content: Content }) => {
           const isRTL = document.documentElement.dir === 'rtl';
           return (
             <div style={{
@@ -714,7 +719,7 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
                   padding: "10px",
                   border: "2px dashed #e0e0e0",
                   borderRadius: "8px",
-                  backgroundColor: "#fafafa",
+                  backgroundColor: backgroundColor || "#fafafa",
                 }}
               />
             </div>
