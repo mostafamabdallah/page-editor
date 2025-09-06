@@ -309,6 +309,19 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
             type: "text",
             label: t('puck.components.hero.backgroundImage')
           },
+          mockupImage: {
+            type: "text",
+            label: t('puck.components.hero.mockupImage')
+          },
+          mockupPosition: {
+            type: "select",
+            label: t('puck.components.hero.mockupPosition'),
+            options: [
+              { label: t('puck.components.hero.left'), value: "left" },
+              { label: t('puck.components.hero.right'), value: "right" },
+              { label: t('puck.components.hero.center'), value: "center" },
+            ],
+          },
           height: {
             type: "select",
             label: t('puck.components.hero.heroHeight'),
@@ -317,6 +330,10 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
               { label: t('puck.components.hero.medium500px'), value: "500px" },
               { label: t('puck.components.hero.large700px'), value: "700px" },
             ],
+          },
+          padding: {
+            type: "text",
+            label: t('puck.components.hero.padding'),
           },
         },
         defaultProps: {
@@ -327,59 +344,115 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
           backgroundColor: "#007bff",
           textColor: "#ffffff",
           backgroundImage: "",
+          mockupImage: "/images/app-mockup.png",
+          mockupPosition: "center",
           height: "500px",
+          padding: "80px 20px",
         },
-        render: ({ title, subtitle, buttonText, buttonLink, backgroundColor, textColor, backgroundImage, height }) => {
+        render: ({ title, subtitle, buttonText, buttonLink, backgroundColor, textColor, backgroundImage, mockupImage, mockupPosition, height, padding }) => {
           const isRTL = document.documentElement.dir === 'rtl';
+          
+          // Determine layout based on mockup position
+          const hasMockup = mockupImage && String(mockupImage).trim() !== '';
+          const isLeftPosition = mockupPosition === 'left';
+          const isRightPosition = mockupPosition === 'right';
+          const isCenterPosition = mockupPosition === 'center';
+          
+          // Adjust layout for RTL
+          const effectiveLeftPosition = isRTL ? isRightPosition : isLeftPosition;
+          
           return (
             <div style={{
               backgroundImage: backgroundImage ? `url(${backgroundImage})` : `linear-gradient(135deg, ${backgroundColor} 0%, ${backgroundColor}dd 100%)`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               color: textColor,
-              padding: "60px 20px",
-              textAlign: "center",
+              padding: padding || "120px 20px",
               minHeight: height,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
               margin: "10px 0",
               direction: isRTL ? 'rtl' : 'ltr',
             }}>
-              <h1 style={{ 
-                fontSize: "3rem", 
-                marginBottom: "20px", 
-                fontWeight: "bold",
-                textAlign: "center",
+              <div style={{
+                maxWidth: "1200px",
+                margin: "0 auto",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "40px",
+                flexDirection: hasMockup && !isCenterPosition ? (effectiveLeftPosition ? "row-reverse" : "row") : "column",
+                textAlign: isCenterPosition ? "center" : (effectiveLeftPosition ? "right" : "left"),
               }}>
-                {title}
-              </h1>
-              <p style={{ 
-                fontSize: "1.2rem", 
-                marginBottom: "30px", 
-                maxWidth: "600px", 
-                lineHeight: "1.6",
-                textAlign: "center",
-              }}>
-                {subtitle}
-              </p>
-              <a
-                href={buttonLink}
-                style={{
-                  backgroundColor: "white",
-                  color: "#333",
-                  padding: "15px 30px",
-                  borderRadius: "5px",
-                  textDecoration: "none",
-                  fontWeight: "bold",
-                  fontSize: "1.1rem",
-                  display: "inline-block",
-                  direction: isRTL ? 'rtl' : 'ltr',
-                }}
-              >
-                {buttonText}
-              </a>
+                {/* Content Section */}
+                <div style={{
+                  flex: hasMockup && !isCenterPosition ? "1" : "none",
+                  maxWidth: isCenterPosition ? "600px" : "none",
+                  margin: isCenterPosition ? "0 auto" : "0",
+                }}>
+                  <h1 style={{ 
+                    fontSize: "3rem", 
+                    marginBottom: "20px", 
+                    fontWeight: "bold",
+                    textAlign: "inherit",
+                  }}>
+                    {title}
+                  </h1>
+                  <p style={{ 
+                    fontSize: "1.2rem", 
+                    marginBottom: "30px", 
+                    maxWidth: "600px", 
+                    lineHeight: "1.6",
+                    textAlign: "inherit",
+                  }}>
+                    {subtitle}
+                  </p>
+                  <a
+                    href={buttonLink}
+                    style={{
+                      backgroundColor: "white",
+                      color: "#333",
+                      padding: "15px 30px",
+                      borderRadius: "5px",
+                      textDecoration: "none",
+                      fontWeight: "bold",
+                      fontSize: "1.1rem",
+                      display: "inline-block",
+                      direction: isRTL ? 'rtl' : 'ltr',
+                    }}
+                  >
+                    {buttonText}
+                  </a>
+                </div>
+                
+                {/* Mockup Image Section */}
+                {hasMockup && (
+                  <div style={{
+                    flex: hasMockup && !isCenterPosition ? "1" : "none",
+                    display: "flex",
+                    justifyContent: isCenterPosition ? "center" : (effectiveLeftPosition ? "flex-start" : "flex-end"),
+                    alignItems: "center",
+                  }}>
+                    <img
+                      src={mockupImage}
+                      alt="Product Mockup"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                        maxHeight: "400px",
+                        borderRadius: "12px",
+                        boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
+                        transform: "perspective(1000px) rotateY(-5deg) rotateX(5deg)",
+                        transition: "transform 0.3s ease",
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = "perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.05)";
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = "perspective(1000px) rotateY(-5deg) rotateX(5deg)";
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           );
         },

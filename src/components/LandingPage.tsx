@@ -7,6 +7,8 @@ export function LandingPage() {
   const { t, i18n } = useTranslation();
 
   const handleCreateFromScratch = () => {
+    // Clear localStorage to start fresh
+    localStorage.removeItem("puck-data");
     navigate("/editor");
   };
 

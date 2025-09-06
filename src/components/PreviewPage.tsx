@@ -69,11 +69,25 @@ export function PreviewPage() {
     <title>Landing Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: ${isRTL ? "'Cairo', 'Roboto', sans-serif" : "'Roboto', 'Cairo', sans-serif"}; 
+        }
         .puck-preview { min-height: 100vh; }
-        [dir="rtl"] { text-align: right; }
-        [dir="ltr"] { text-align: left; }
+        [dir="rtl"] { 
+            text-align: right; 
+            font-family: 'Cairo', 'Roboto', sans-serif;
+        }
+        [dir="ltr"] { 
+            text-align: left; 
+            font-family: 'Roboto', 'Cairo', sans-serif;
+        }
         [dir="rtl"] .rtl-flip { transform: scaleX(-1); }
         [dir="rtl"] .rtl-text { text-align: right; }
         [dir="rtl"] .rtl-flex { flex-direction: row-reverse; }
@@ -137,15 +151,41 @@ export function PreviewPage() {
             <p style="margin: 0; color: #6b7280; line-height: 1.6;">${component.props?.content || 'Card content'}</p>
           </div></div>`;
         
-        case 'Hero':
-          return `<div style="background: linear-gradient(135deg, ${component.props?.backgroundColor || '#667eea'} 0%, ${component.props?.backgroundColor || '#667eea'}dd 100%); color: ${component.props?.textColor || '#ffffff'}; padding: 80px 20px; text-align: center; min-height: ${component.props?.height || '500px'}; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;">
-            ${component.props?.backgroundImage ? `<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('${component.props.backgroundImage}'); background-size: cover; background-position: center; opacity: 0.3; z-index: 0;"></div>` : ''}
-            <div style="position: relative; z-index: 1;">
-              <h1 style="font-size: 3.5rem; margin: 0 0 24px 0; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">${component.props?.title || 'Hero Title'}</h1>
-              <p style="font-size: 1.25rem; margin: 0 0 32px 0; opacity: 0.95; max-width: 600px; margin-left: auto; margin-right: auto;">${component.props?.subtitle || 'Hero Subtitle'}</p>
-              <a href="${component.props?.buttonLink || '#'}" style="display: inline-block; padding: 16px 32px; background-color: rgba(255,255,255,0.2); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; border: 2px solid white; transition: all 0.3s ease; backdrop-filter: blur(10px);">${component.props?.buttonText || 'Get Started'}</a>
+        case 'Hero': {
+          const hasMockup = component.props?.mockupImage && String(component.props.mockupImage).trim() !== '';
+          const mockupPosition = component.props?.mockupPosition || 'right';
+          const isLeftPosition = mockupPosition === 'left';
+          const isRightPosition = mockupPosition === 'right';
+          const isCenterPosition = mockupPosition === 'center';
+          
+          // Adjust layout for RTL
+          const effectiveLeftPosition = isRTL ? isRightPosition : isLeftPosition;
+          
+          const layoutStyle = hasMockup && !isCenterPosition ? 
+            `display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-direction: ${effectiveLeftPosition ? 'row-reverse' : 'row'}; max-width: 1200px; margin: 0 auto;` : 
+            'display: flex; flex-direction: column; justify-content: center; align-items: center;';
+          
+          const contentStyle = hasMockup && !isCenterPosition ? 
+            `flex: 1; text-align: ${effectiveLeftPosition ? 'right' : 'left'};` : 
+            'text-align: center;';
+          
+          const mockupHtml = hasMockup ? `
+            <div style="flex: 1; display: flex; justify-content: ${isCenterPosition ? 'center' : (effectiveLeftPosition ? 'flex-start' : 'flex-end')}; align-items: center;">
+              <img src="${component.props?.mockupImage || ''}" alt="Product Mockup" style="max-width: 100%; height: auto; max-height: 400px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);">
+            </div>
+          ` : '';
+          
+          return `<div style="background: ${component.props?.backgroundImage ? `url('${component.props.backgroundImage}')` : `linear-gradient(135deg, ${component.props?.backgroundColor || '#667eea'} 0%, ${component.props?.backgroundColor || '#667eea'}dd 100%)`}; background-size: cover; background-position: center; color: ${component.props?.textColor || '#ffffff'}; padding: ${component.props?.padding || '80px 20px'}; min-height: ${component.props?.height || '500px'}; position: relative; overflow: hidden; direction: ${isRTL ? 'rtl' : 'ltr'};">
+            <div style="${layoutStyle}">
+              <div style="${contentStyle}">
+                <h1 style="font-size: 3.5rem; margin: 0 0 24px 0; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">${component.props?.title || 'Hero Title'}</h1>
+                <p style="font-size: 1.25rem; margin: 0 0 32px 0; opacity: 0.95; max-width: 600px; ${isCenterPosition ? 'margin-left: auto; margin-right: auto;' : ''}">${component.props?.subtitle || 'Hero Subtitle'}</p>
+                <a href="${component.props?.buttonLink || '#'}" style="display: inline-block; padding: 16px 32px; background-color: rgba(255,255,255,0.2); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; border: 2px solid white; transition: all 0.3s ease; backdrop-filter: blur(10px);">${component.props?.buttonText || 'Get Started'}</a>
+              </div>
+              ${mockupHtml}
             </div>
           </div>`;
+        }
         
         case 'FeatureCard':
           return `<div style="padding: 20px;"><div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 32px; text-align: center; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s ease; height: 100%;">
@@ -247,7 +287,7 @@ export function PreviewPage() {
         
         case 'Grid': {
           const contentHtml: string = Array.isArray(component.props?.content) 
-            ? component.props.content.map((child: any): string => generateComponentHTML([child])).join('')
+            ? component.props.content.map((child: { type: string; props?: Record<string, unknown> }): string => generateComponentHTML([child])).join('')
             : '';
           return `<div style="display: grid; grid-template-columns: repeat(${component.props?.columns || '3'}, 1fr); gap: ${component.props?.gap || '24px'}; background-color: ${component.props?.backgroundColor || '#fafafa'}; margin: 20px 0; padding: 10px; border-radius: 8px; direction: ${isRTL ? 'rtl' : 'ltr'};">
             ${contentHtml}
@@ -256,7 +296,7 @@ export function PreviewPage() {
         
         case 'Flex': {
           const contentHtml: string = Array.isArray(component.props?.content) 
-            ? component.props.content.map((child: any): string => generateComponentHTML([child])).join('')
+            ? component.props.content.map((child: { type: string; props?: Record<string, unknown> }): string => generateComponentHTML([child])).join('')
             : '';
           const flexDirection = component.props?.direction === 'column' ? 'column' : 'row';
           const justifyContent = component.props?.justify || 'flex-start';
@@ -269,7 +309,7 @@ export function PreviewPage() {
         
         case 'Container': {
           const contentHtml: string = Array.isArray(component.props?.content) 
-            ? component.props.content.map((child: any): string => generateComponentHTML([child])).join('')
+            ? component.props.content.map((child: { type: string; props?: Record<string, unknown> }): string => generateComponentHTML([child])).join('')
             : '';
           return `<div style="background-color: ${component.props?.backgroundColor || '#ffffff'}; padding: ${component.props?.padding || '40px 20px'}; direction: ${isRTL ? 'rtl' : 'ltr'};">
             ${contentHtml}

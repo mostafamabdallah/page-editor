@@ -1,4 +1,17 @@
 @import '@fortawesome/fontawesome-free/css/all.min.css';
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Test font loading */
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cairo';
+  font-display: swap;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -67,4 +80,58 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+* {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+/* Global font families - outside @layer to ensure they take precedence */
+html {
+  font-family: 'Roboto', 'Cairo', sans-serif !important;
+}
+
+body {
+  font-family: 'Roboto', 'Cairo', sans-serif !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+[dir="ltr"] {
+  font-family: 'Roboto', 'Cairo', sans-serif !important;
+}
+
+[dir="ltr"] * {
+  font-family: 'Roboto', 'Cairo', sans-serif !important;
+}
+
+[dir="rtl"] {
+  font-family: 'Cairo', 'Roboto', sans-serif !important;
+}
+
+[dir="rtl"] * {
+  font-family: 'Cairo', 'Roboto', sans-serif !important;
+}
+
+/* Ensure all text elements inherit the font */
+p, h1, h2, h3, h4, h5, h6, div, span, a, button, input, textarea, select, label {
+  font-family: inherit !important;
+}
+
+/* Force font loading with a more direct approach */
+* {
+  font-family: 'Roboto', 'Cairo', sans-serif !important;
+}
+
+[dir="rtl"] * {
+  font-family: 'Cairo', 'Roboto', sans-serif !important;
+}
+
+/* Additional aggressive font application */
+html, body, div, span, p, h1, h2, h3, h4, h5, h6, a, button, input, textarea, select, label {
+  font-family: 'Roboto', 'Cairo', sans-serif !important;
+}
+
+[dir="rtl"] html, [dir="rtl"] body, [dir="rtl"] div, [dir="rtl"] span, [dir="rtl"] p, [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6, [dir="rtl"] a, [dir="rtl"] button, [dir="rtl"] input, [dir="rtl"] textarea, [dir="rtl"] select, [dir="rtl"] label {
+  font-family: 'Cairo', 'Roboto', sans-serif !important;
 }
