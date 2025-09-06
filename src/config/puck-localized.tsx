@@ -8,6 +8,10 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
 
   return {
     categories: {
+      layout: {
+        title: t('puck.categories.layout'),
+        components: ['Grid', 'Flex', 'Container']
+      },
       content: {
         title: t('puck.categories.content'),
         components: ['Text', 'Heading', 'Button', 'Image', 'Card', 'Hero', 'FeatureCard', 'Testimonial', 'PricingCard', 'ContactForm']
@@ -657,6 +661,210 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
               >
                 {buttonText}
               </a>
+            </div>
+          );
+        },
+      },
+
+      Grid: {
+        label: t('puck.componentNames.Grid'),
+        fields: {
+          columns: {
+            type: "select",
+            label: t('puck.components.grid.columns'),
+            options: [
+              { label: "2 Columns", value: "2" },
+              { label: "3 Columns", value: "3" },
+              { label: "4 Columns", value: "4" },
+              { label: "5 Columns", value: "5" },
+              { label: "6 Columns", value: "6" },
+            ],
+          },
+          gap: {
+            type: "select",
+            label: t('puck.components.grid.gap'),
+            options: [
+              { label: t('puck.components.grid.small'), value: "8px" },
+              { label: t('puck.components.grid.medium'), value: "16px" },
+              { label: t('puck.components.grid.large'), value: "24px" },
+              { label: t('puck.components.grid.extraLarge'), value: "32px" },
+            ],
+          },
+          content: {
+            type: "slot",
+          },
+        },
+        defaultProps: {
+          columns: "3",
+          gap: "16px",
+        },
+        render: ({ columns, gap, content: Content }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          return (
+            <div style={{
+              direction: isRTL ? 'rtl' : 'ltr',
+              margin: "20px 0",
+            }}>
+              <Content
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: `repeat(${columns}, 1fr)`,
+                  gap: gap,
+                  minHeight: "100px",
+                  padding: "10px",
+                  border: "2px dashed #e0e0e0",
+                  borderRadius: "8px",
+                  backgroundColor: "#fafafa",
+                }}
+              />
+            </div>
+          );
+        },
+      },
+
+      Flex: {
+        label: t('puck.componentNames.Flex'),
+        fields: {
+          direction: {
+            type: "select",
+            label: t('puck.components.flex.direction'),
+            options: [
+              { label: t('puck.components.flex.row'), value: "row" },
+              { label: t('puck.components.flex.column'), value: "column" },
+              { label: t('puck.components.flex.rowReverse'), value: "row-reverse" },
+              { label: t('puck.components.flex.columnReverse'), value: "column-reverse" },
+            ],
+          },
+          justify: {
+            type: "select",
+            label: t('puck.components.flex.justify'),
+            options: [
+              { label: t('puck.components.flex.start'), value: "flex-start" },
+              { label: t('puck.components.flex.center'), value: "center" },
+              { label: t('puck.components.flex.end'), value: "flex-end" },
+              { label: t('puck.components.flex.spaceBetween'), value: "space-between" },
+              { label: t('puck.components.flex.spaceAround'), value: "space-around" },
+              { label: t('puck.components.flex.spaceEvenly'), value: "space-evenly" },
+            ],
+          },
+          align: {
+            type: "select",
+            label: t('puck.components.flex.align'),
+            options: [
+              { label: t('puck.components.flex.stretch'), value: "stretch" },
+              { label: t('puck.components.flex.start'), value: "flex-start" },
+              { label: t('puck.components.flex.center'), value: "center" },
+              { label: t('puck.components.flex.end'), value: "flex-end" },
+              { label: t('puck.components.flex.baseline'), value: "baseline" },
+            ],
+          },
+          gap: {
+            type: "select",
+            label: t('puck.components.flex.gap'),
+            options: [
+              { label: t('puck.components.flex.small'), value: "8px" },
+              { label: t('puck.components.flex.medium'), value: "16px" },
+              { label: t('puck.components.flex.large'), value: "24px" },
+              { label: t('puck.components.flex.extraLarge'), value: "32px" },
+            ],
+          },
+          wrap: {
+            type: "select",
+            label: t('puck.components.flex.wrap'),
+            options: [
+              { label: t('puck.components.flex.nowrap'), value: "nowrap" },
+              { label: t('puck.components.flex.wrap'), value: "wrap" },
+              { label: t('puck.components.flex.wrapReverse'), value: "wrap-reverse" },
+            ],
+          },
+          content: {
+            type: "slot",
+          },
+        },
+        defaultProps: {
+          direction: "row",
+          justify: "flex-start",
+          align: "stretch",
+          gap: "16px",
+          wrap: "wrap",
+        },
+        render: ({ direction, justify, align, gap, wrap, content: Content }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          return (
+            <div style={{
+              direction: isRTL ? 'rtl' : 'ltr',
+              margin: "20px 0",
+            }}>
+              <Content
+                style={{
+                  display: "flex",
+                  flexDirection: direction,
+                  justifyContent: justify,
+                  alignItems: align,
+                  gap: gap,
+                  flexWrap: wrap,
+                  minHeight: "100px",
+                  padding: "10px",
+                  border: "2px dashed #e0e0e0",
+                  borderRadius: "8px",
+                  backgroundColor: "#fafafa",
+                }}
+              />
+            </div>
+          );
+        },
+      },
+
+      Container: {
+        label: t('puck.componentNames.Container'),
+        fields: {
+          maxWidth: {
+            type: "select",
+            label: t('puck.components.container.maxWidth'),
+            options: [
+              { label: "100%", value: "100%" },
+              { label: "800px", value: "800px" },
+              { label: "1000px", value: "1000px" },
+              { label: "1200px", value: "1200px" },
+              { label: "1400px", value: "1400px" },
+            ],
+          },
+          padding: {
+            type: "select",
+            label: t('puck.components.container.padding'),
+            options: [
+              { label: t('puck.components.container.small'), value: "16px" },
+              { label: t('puck.components.container.medium'), value: "32px" },
+              { label: t('puck.components.container.large'), value: "48px" },
+              { label: t('puck.components.container.extraLarge'), value: "64px" },
+            ],
+          },
+          backgroundColor: {
+            type: "text",
+            label: t('puck.components.container.backgroundColor'),
+          },
+          content: {
+            type: "slot",
+          },
+        },
+        defaultProps: {
+          maxWidth: "1200px",
+          padding: "32px",
+          backgroundColor: "#ffffff",
+        },
+        render: ({ maxWidth, padding, backgroundColor, content: Content }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          return (
+            <div style={{
+              direction: isRTL ? 'rtl' : 'ltr',
+              margin: "20px auto",
+              maxWidth: maxWidth,
+              padding: padding,
+              backgroundColor: backgroundColor,
+              borderRadius: "8px",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+            }}>
+              <Content />
             </div>
           );
         },
