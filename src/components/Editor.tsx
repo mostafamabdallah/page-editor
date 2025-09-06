@@ -67,8 +67,10 @@ export function Editor() {
 
   console.log(currentData);
 
+  const isRTL = i18n.language === 'ar';
+
   return (
-    <div>
+    <div style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
       {/* AI Generator Toggle */}
       <div style={{
         padding: "10px 20px",

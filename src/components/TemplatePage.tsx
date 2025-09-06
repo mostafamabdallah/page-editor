@@ -341,7 +341,7 @@ const templates = [
 
 export function TemplatePage() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // Function to create localized template data
   const createLocalizedTemplateData = (templateId: string) => {
@@ -663,11 +663,14 @@ export function TemplatePage() {
     navigate("/");
   };
 
+  const isRTL = i18n.language === 'ar';
+
   return (
     <div style={{
       minHeight: "100vh",
       backgroundColor: "#f8f9fa",
       padding: "20px",
+      direction: isRTL ? 'rtl' : 'ltr',
     }}>
       <div style={{
         maxWidth: "1200px",
@@ -705,7 +708,7 @@ export function TemplatePage() {
             {t('templatePage.title')}
           </h1>
           
-          <div style={{ width: "120px", display: "flex", justifyContent: "flex-end" }}>
+          <div style={{ width: "120px", display: "flex", justifyContent: isRTL ? "flex-start" : "flex-end" }}>
             <LanguageSwitcher />
           </div>
         </div>

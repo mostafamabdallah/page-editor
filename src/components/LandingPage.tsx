@@ -4,7 +4,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function LandingPage() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const handleCreateFromScratch = () => {
     navigate("/editor");
@@ -14,6 +14,8 @@ export function LandingPage() {
     navigate("/templates");
   };
 
+  const isRTL = i18n.language === 'ar';
+
   return (
     <div style={{
       minHeight: "100vh",
@@ -22,6 +24,7 @@ export function LandingPage() {
       alignItems: "center",
       justifyContent: "center",
       padding: "20px",
+      direction: isRTL ? 'rtl' : 'ltr',
     }}>
       <div style={{
         backgroundColor: "white",
@@ -37,7 +40,7 @@ export function LandingPage() {
         <div style={{
           position: "absolute",
           top: "20px",
-          right: "20px",
+          [isRTL ? 'left' : 'right']: "20px",
         }}>
           <LanguageSwitcher />
         </div>

@@ -60,8 +60,9 @@ export function PreviewPage() {
   };
 
   const generateHTML = (data: Data) => {
+    const isRTL = i18n.language === 'ar';
     return `<!DOCTYPE html>
-<html lang="${i18n.language}" dir="${i18n.language === 'ar' ? 'rtl' : 'ltr'}">
+<html lang="${i18n.language}" dir="${isRTL ? 'rtl' : 'ltr'}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,6 +74,9 @@ export function PreviewPage() {
         .puck-preview { min-height: 100vh; }
         [dir="rtl"] { text-align: right; }
         [dir="ltr"] { text-align: left; }
+        [dir="rtl"] .rtl-flip { transform: scaleX(-1); }
+        [dir="rtl"] .rtl-text { text-align: right; }
+        [dir="rtl"] .rtl-flex { flex-direction: row-reverse; }
     </style>
 </head>
 <body>
@@ -88,12 +92,16 @@ export function PreviewPage() {
       return '<div style="padding: 40px; text-align: center; color: #666;">No content to display</div>';
     }
     
+    const isRTL = i18n.language === 'ar';
+    
     return components.map((component) => {
       if (!component || !component.type) return '';
       
       switch (component.type) {
-        case 'Text':
-          return `<div style="text-align: ${component.props?.align || 'left'}; font-size: ${component.props?.fontSize || '16px'}; color: ${component.props?.color || '#333'}; font-weight: ${component.props?.fontWeight || 'normal'}; padding: 20px; line-height: 1.6;">${component.props?.text || ''}</div>`;
+        case 'Text': {
+          const align = component.props?.align || (isRTL ? 'right' : 'left');
+          return `<div style="text-align: ${align}; font-size: ${component.props?.fontSize || '16px'}; color: ${component.props?.color || '#333'}; font-weight: ${component.props?.fontWeight || 'normal'}; padding: 20px; line-height: 1.6;">${component.props?.text || ''}</div>`;
+        }
         
         case 'Heading': {
           const level = component.props?.level || 'h1';
@@ -105,7 +113,8 @@ export function PreviewPage() {
             h5: 'font-size: 1.125rem; font-weight: bold; margin: 0 0 6px 0;',
             h6: 'font-size: 1rem; font-weight: bold; margin: 0 0 4px 0;'
           };
-          return `<${level} style="padding: 20px; ${headingStyles[level as keyof typeof headingStyles]}">${component.props?.text || ''}</${level}>`;
+          const textAlign = isRTL ? 'text-align: right;' : 'text-align: left;';
+          return `<${level} style="padding: 20px; ${headingStyles[level as keyof typeof headingStyles]} ${textAlign}">${component.props?.text || ''}</${level}>`;
         }
         
         case 'Button': {
@@ -145,28 +154,33 @@ export function PreviewPage() {
             <p style="margin: 0; color: #6b7280; line-height: 1.6;">${component.props?.description || 'Feature description'}</p>
           </div></div>`;
         
-        case 'Testimonial':
+        case 'Testimonial': {
+          const flexDirection = isRTL ? 'flex-direction: row-reverse;' : 'flex-direction: row;';
           return `<div style="padding: 20px;"><div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 32px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center;">
             <p style="font-size: 1.125rem; font-style: italic; margin: 0 0 24px 0; color: #374151; line-height: 1.6;">"${component.props?.quote || 'Testimonial quote'}"</p>
-            <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 12px; ${flexDirection}">
               ${component.props?.avatarImage ? `<img src="${component.props.avatarImage}" alt="${component.props.author}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">` : ''}
-              <div>
+              <div style="text-align: ${isRTL ? 'right' : 'left'};">
                 <div style="font-weight: bold; color: #1f2937;">${component.props?.author || 'Author Name'}</div>
                 <div style="color: #6b7280; font-size: 0.875rem;">${component.props?.role || 'Author Role'}</div>
               </div>
             </div>
           </div></div>`;
+        }
         
-        case 'PricingCard':
+        case 'PricingCard': {
+          const listAlign = isRTL ? 'text-align: right;' : 'text-align: left;';
+          const checkMargin = isRTL ? 'margin-left: 8px; margin-right: 0;' : 'margin-right: 8px; margin-left: 0;';
           return `<div style="padding: 20px;"><div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 32px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; position: relative; height: 100%;">
             ${component.props?.popular ? '<div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #007bff; color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">Most Popular</div>' : ''}
             <h3 style="margin: 0 0 12px 0; font-size: 24px; font-weight: bold; color: #1f2937;">${component.props?.planName || 'Plan Name'}</h3>
             <div style="font-size: 2.5rem; font-weight: bold; margin: 20px 0; color: #1f2937;">${component.props?.price || '$29'}<span style="font-size: 1rem; color: #6b7280;">${component.props?.billingPeriod || '/month'}</span></div>
-            <ul style="list-style: none; padding: 0; margin: 24px 0; text-align: left;">
-              ${String(component.props?.features || '').split('\n').filter((f: string) => f.trim()).map((feature: string) => `<li style="padding: 8px 0; color: #6b7280; display: flex; align-items: center;"><span style="color: #10b981; margin-right: 8px;">✓</span> ${feature}</li>`).join('')}
+            <ul style="list-style: none; padding: 0; margin: 24px 0; ${listAlign}">
+              ${String(component.props?.features || '').split('\n').filter((f: string) => f.trim()).map((feature: string) => `<li style="padding: 8px 0; color: #6b7280; display: flex; align-items: center; ${isRTL ? 'flex-direction: row-reverse;' : ''}"><span style="color: #10b981; ${checkMargin}">✓</span> ${feature}</li>`).join('')}
             </ul>
             <a href="${component.props?.buttonLink || '#'}" style="display: inline-block; padding: 12px 24px; background-color: #007bff; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; width: 100%; text-align: center; transition: background-color 0.3s ease;">${component.props?.buttonText || 'Get Started'}</a>
           </div></div>`;
+        }
         
         case 'ContactForm':
           return `<div style="padding: 40px 20px; background: ${component.props?.backgroundColor || '#f8fafc'};">
@@ -202,8 +216,10 @@ export function PreviewPage() {
     );
   }
 
+  const isRTL = i18n.language === 'ar';
+
   return (
-    <div>
+    <div style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
       {/* Preview Header */}
       <div style={{
         padding: "10px 20px",
