@@ -12,6 +12,83 @@
   font-family: 'Cairo';
   font-display: swap;
 }
+
+/* Aggressive CSS Reset - Must come before Tailwind */
+*,
+*::before,
+*::after {
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow-x: hidden !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+}
+
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  overflow-x: hidden !important;
+  font-family: 'Roboto', 'Cairo', sans-serif !important;
+  background-color: #ffffff !important;
+}
+
+#root {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  display: block !important;
+}
+
+/* Remove any default margins from common elements */
+h1, h2, h3, h4, h5, h6, p, ul, ol, li, div, section, article, header, footer, nav, main, aside {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Ensure no scrollbars cause layout shifts */
+html, body {
+  overflow-x: hidden !important;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera */
+}
+
+/* Override Puck CSS margins/padding */
+.puck {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.puck-root {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.puck-root > * {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Override any default browser margins on the main container */
+body > div {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

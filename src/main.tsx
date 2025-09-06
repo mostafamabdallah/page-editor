@@ -9,6 +9,14 @@ const isRTL = savedLanguage === 'ar'
 document.documentElement.lang = savedLanguage
 document.documentElement.dir = isRTL ? 'rtl' : 'ltr'
 
+// Ensure proper layout direction and remove margins/padding
+document.body.style.direction = isRTL ? 'rtl' : 'ltr'
+document.body.style.textAlign = isRTL ? 'right' : 'left'
+document.body.style.margin = '0'
+document.body.style.padding = '0'
+document.documentElement.style.margin = '0'
+document.documentElement.style.padding = '0'
+
 // Force apply fonts directly via JavaScript
 const applyFonts = () => {
   const isRTL = document.documentElement.dir === 'rtl'
