@@ -5,15 +5,29 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 // Helper function to generate unique IDs
 const generateId = (type: string, index: number) => `${type}-${Date.now()}-${index}`;
 
-// Helper function to add IDs to template data
+// Helper function to add IDs to template data (preserves existing IDs)
 const addIdsToTemplate = (templateData: { content: Array<{ type: string; props: Record<string, unknown> }>; root: { props: Record<string, unknown> }; zones: Record<string, unknown> }) => {
-  const content = templateData.content.map((item: { type: string; props: Record<string, unknown> }, index: number) => ({
-    ...item,
-    props: {
-      ...item.props,
-      id: generateId(item.type, index)
-    }
-  }));
+  const processContent = (contentArray: Array<{ type: string; props: Record<string, unknown> }>, parentIndex: number = 0) => {
+    return contentArray.map((item: { type: string; props: Record<string, unknown> }, index: number) => {
+      const processedItem = {
+        ...item,
+        props: {
+          ...item.props,
+          // Only add ID if it doesn't already exist
+          id: item.props.id || generateId(item.type, parentIndex * 1000 + index)
+        } as Record<string, unknown>
+      };
+
+      // Handle nested content in Grid and Flex components
+      if (item.props.content && Array.isArray(item.props.content)) {
+        (processedItem.props as Record<string, unknown>).content = processContent(item.props.content as Array<{ type: string; props: Record<string, unknown> }>, parentIndex * 1000 + index);
+      }
+
+      return processedItem;
+    });
+  };
+
+  const content = processContent(templateData.content);
   
   return {
     ...templateData,
@@ -33,64 +47,306 @@ const templates = [
         {
           type: "Hero",
           props: {
-            title: "Revolutionize Your Business",
-            subtitle: "The all-in-one platform that helps startups scale faster and smarter. Join thousands of companies already growing with us.",
-            buttonText: "Get Started Free",
+            id: "hero-1",
+            title: "Smart Application For Modern People",
+            subtitle: "Transform your business with our cutting-edge platform. Join thousands of companies already growing with us. Experience the future of productivity today.",
+            buttonText: "Explore Options",
             buttonLink: "#",
-            backgroundColor: "#667eea",
+            backgroundColor: "#000000",
             textColor: "#ffffff",
-            height: "500px",
+            height: "600px",
+            backgroundImage: "/images/hero-bg.jpg",
+          },
+        },
+        {
+          type: "AppMockup",
+          props: {
+            id: "app-mockup-1",
+            imageUrl: "/images/app-mockup.png",
+            altText: "App Mockup",
+            width: "300px",
+            position: "right",
           },
         },
         {
           type: "Heading",
           props: {
-            text: "Why Choose Us?",
+            id: "heading-1",
+            text: "Condimentum Mattis Pellentesque Dnibus Tortyga",
             level: "h2",
           },
         },
         {
-          type: "FeatureCard",
+          type: "Text",
           props: {
-            icon: "⚡",
-            title: "Lightning Fast",
-            description: "Built for speed and performance. Your users will love the experience.",
-            color: "#e3f2fd",
+            id: "text-1",
+            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+            align: "center",
+            fontSize: "18px",
+            color: "#666666",
           },
         },
         {
-          type: "FeatureCard",
+          type: "Grid",
           props: {
-            icon: "🔒",
-            title: "Secure & Reliable",
-            description: "Enterprise-grade security with 99.9% uptime guarantee.",
-            color: "#e8f5e8",
+            id: "features-grid-1",
+            columns: "3",
+            gap: "24px",
+            content: [
+              {
+                type: "FeatureCard",
+                props: {
+                  id: "feature-card-1",
+                  icon: "🚀",
+                  title: "Smart and Intuitive",
+                  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                  color: "#f8f9fa",
+                },
+              },
+              {
+                type: "FeatureCard",
+                props: {
+                  id: "feature-card-2",
+                  icon: "⚡",
+                  title: "Lightning Fast",
+                  description: "Built for speed and performance. Your users will love the experience. Enterprise-grade security with 99.9% uptime guarantee.",
+                  color: "#f8f9fa",
+                },
+              },
+              {
+                type: "FeatureCard",
+                props: {
+                  id: "feature-card-3",
+                  icon: "🔒",
+                  title: "Secure & Reliable",
+                  description: "Enterprise-grade security with 99.9% uptime guarantee. Grows with your business. No limits, no compromises.",
+                  color: "#f8f9fa",
+                },
+              },
+              {
+                type: "FeatureCard",
+                props: {
+                  id: "feature-card-4",
+                  icon: "📈",
+                  title: "Scale Easily",
+                  description: "Grows with your business. No limits, no compromises. Built for speed and performance. Your users will love the experience.",
+                  color: "#f8f9fa",
+                },
+              },
+              {
+                type: "FeatureCard",
+                props: {
+                  id: "feature-card-5",
+                  icon: "🌱",
+                  title: "Eco Friendly",
+                  description: "Sustainable technology solutions that help reduce your carbon footprint while maintaining top performance.",
+                  color: "#f8f9fa",
+                },
+              },
+              {
+                type: "FeatureCard",
+                props: {
+                  id: "feature-card-6",
+                  icon: "⚙️",
+                  title: "Easy Setup",
+                  description: "Get started in minutes with our intuitive setup process. No technical expertise required.",
+                  color: "#f8f9fa",
+                },
+              },
+            ],
           },
         },
         {
-          type: "FeatureCard",
+          type: "Heading",
           props: {
-            icon: "📈",
-            title: "Scale Easily",
-            description: "Grows with your business. No limits, no compromises.",
-            color: "#fff3e0",
+            id: "heading-2",
+            text: "How The App Works",
+            level: "h2",
           },
         },
         {
-          type: "Testimonial",
+          type: "Text",
           props: {
-            quote: "This platform transformed our business. We've seen 300% growth in just 6 months!",
-            author: "Sarah Johnson",
-            role: "CEO, TechStart",
-            rating: "5",
+            id: "text-2",
+            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            align: "center",
+            fontSize: "18px",
+            color: "#666666",
           },
         },
         {
-          type: "Button",
+          type: "Grid",
           props: {
-            text: "Start Free Trial",
-            link: "#",
-            style: "primary",
+            id: "steps-grid-1",
+            columns: "2",
+            gap: "32px",
+            content: [
+              {
+                type: "Card",
+                props: {
+                  id: "step-card-1",
+                  title: "1. Turpis egestas sed",
+                  content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                  imageUrl: "/images/step1.jpg",
+                },
+              },
+              {
+                type: "Card",
+                props: {
+                  id: "step-card-2",
+                  title: "2. Egestas diam in dignissim",
+                  content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                  imageUrl: "/images/step2.jpg",
+                },
+              },
+              {
+                type: "Card",
+                props: {
+                  id: "step-card-3",
+                  title: "3. Bibendum at varius",
+                  content: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                  imageUrl: "/images/step3.jpg",
+                },
+              },
+              {
+                type: "Card",
+                props: {
+                  id: "step-card-4",
+                  title: "4. Fermentum leo vel orci",
+                  content: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                  imageUrl: "/images/step4.jpg",
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "StatsSection",
+          props: {
+            id: "stats-section-1",
+            title: "Some Tech Specs",
+            subtitle: "Numbers that speak for themselves",
+            backgroundColor: "#f8f9fa",
+            stats: "90% Massa dictum convallis\n85% Pellentesque habitant morbi\n95% Tristique senectus et netus\n88% Malesuada fames ac turpis",
+          },
+        },
+        {
+          type: "Heading",
+          props: {
+            id: "heading-3",
+            text: "Our Simple Straight-Forward Pricing",
+            level: "h2",
+          },
+        },
+        {
+          type: "Text",
+          props: {
+            id: "text-3",
+            text: "Choose the plan that works best for your business. No hidden fees, no surprises.",
+            align: "center",
+            fontSize: "18px",
+            color: "#666666",
+          },
+        },
+        {
+          type: "Flex",
+          props: {
+            id: "pricing-flex-1",
+            direction: "row",
+            justify: "center",
+            align: "stretch",
+            gap: "32px",
+            wrap: "wrap",
+            content: [
+              {
+                type: "PricingCard",
+                props: {
+                  id: "pricing-card-1",
+                  planName: "Free Plan",
+                  price: "$0",
+                  period: "Forever",
+                  features: "100GB Storage\nLimited Bandwidth\nBasic Support\nStandard Templates",
+                  buttonText: "Get Started",
+                  buttonLink: "#",
+                  popular: "false",
+                },
+              },
+              {
+                type: "PricingCard",
+                props: {
+                  id: "pricing-card-2",
+                  planName: "Pro Plan",
+                  price: "$30",
+                  period: "per month",
+                  features: "500GB Storage\nUnlimited Bandwidth\nPriority Support\nPremium Templates\nAdvanced Analytics",
+                  buttonText: "Get Started",
+                  buttonLink: "#",
+                  popular: "true",
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "Heading",
+          props: {
+            id: "heading-4",
+            text: "Our Users Love Our App!",
+            level: "h2",
+          },
+        },
+        {
+          type: "Grid",
+          props: {
+            id: "testimonials-grid-1",
+            columns: "3",
+            gap: "24px",
+            content: [
+              {
+                type: "Testimonial",
+                props: {
+                  id: "testimonial-1",
+                  quote: "This platform transformed our business. We've seen 300% growth in just 6 months!",
+                  author: "Anna Pearson",
+                  role: "App Developer",
+                  rating: "5",
+                  avatar: "/images/avatar1.jpg",
+                },
+              },
+              {
+                type: "Testimonial",
+                props: {
+                  id: "testimonial-2",
+                  quote: "Outstanding service and expertise. They helped us streamline our operations significantly.",
+                  author: "Michael Anderson",
+                  role: "Great Support",
+                  rating: "5",
+                  avatar: "/images/avatar2.jpg",
+                },
+              },
+              {
+                type: "Testimonial",
+                props: {
+                  id: "testimonial-3",
+                  quote: "The best investment we've made for our startup. Highly recommended!",
+                  author: "Sarah Johnson",
+                  role: "CEO, TechStart",
+                  rating: "5",
+                  avatar: "/images/avatar3.jpg",
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "DownloadSection",
+          props: {
+            id: "download-section-1",
+            title: "Download Our App Now",
+            subtitle: "Available on iOS and Android. Get started today and experience the future of productivity.",
+            backgroundColor: "#f8f9fa",
+            appStoreUrl: "#",
+            playStoreUrl: "#",
           },
         },
       ],
@@ -354,64 +610,291 @@ export function TemplatePage() {
             {
               type: "Hero",
               props: {
-                title: content.heroTitle,
-                subtitle: content.heroSubtitle,
-                buttonText: content.heroButton,
+                id: "hero-1",
+                title: "Smart Application For Modern People",
+                subtitle: "Transform your business with our cutting-edge platform. Join thousands of companies already growing with us. Experience the future of productivity today.",
+                buttonText: "Explore Options",
                 buttonLink: "#",
-                backgroundColor: "#667eea",
+                backgroundColor: "#000000",
                 textColor: "#ffffff",
-                height: "500px",
+                height: "600px",
+                backgroundImage: "/images/hero-bg.jpg",
+              },
+            },
+            {
+              type: "AppMockup",
+              props: {
+                id: "app-mockup-1",
+                imageUrl: "/images/app-mockup.png",
+                altText: "App Mockup",
+                width: "300px",
+                position: "right",
               },
             },
             {
               type: "Heading",
               props: {
-                text: content.whyChooseUs,
+                id: "heading-1",
+                text: "Condimentum Mattis Pellentesque Dnibus Tortyga",
                 level: "h2",
               },
             },
             {
-              type: "FeatureCard",
+              type: "Text",
               props: {
-                icon: "⚡",
-                title: content.lightningFast,
-                description: content.lightningFastDesc,
-                color: "#e3f2fd",
+                id: "text-1",
+                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+                align: "center",
+                fontSize: "18px",
+                color: "#666666",
               },
             },
             {
-              type: "FeatureCard",
+              type: "Grid",
               props: {
-                icon: "🔒",
-                title: content.secureReliable,
-                description: content.secureReliableDesc,
-                color: "#e8f5e8",
+                id: "features-grid-1",
+                columns: "3",
+                gap: "24px",
+                content: [
+                  {
+                    type: "FeatureCard",
+                    props: {
+                      icon: "🚀",
+                      title: "Smart and Intuitive",
+                      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                      color: "#f8f9fa",
+                    },
+                  },
+                  {
+                    type: "FeatureCard",
+                    props: {
+                      icon: "⚡",
+                      title: "Lightning Fast",
+                      description: "Built for speed and performance. Your users will love the experience. Enterprise-grade security with 99.9% uptime guarantee.",
+                      color: "#f8f9fa",
+                    },
+                  },
+                  {
+                    type: "FeatureCard",
+                    props: {
+                      icon: "🔒",
+                      title: "Secure & Reliable",
+                      description: "Enterprise-grade security with 99.9% uptime guarantee. Grows with your business. No limits, no compromises.",
+                      color: "#f8f9fa",
+                    },
+                  },
+                  {
+                    type: "FeatureCard",
+                    props: {
+                      icon: "📈",
+                      title: "Scale Easily",
+                      description: "Grows with your business. No limits, no compromises. Built for speed and performance. Your users will love the experience.",
+                      color: "#f8f9fa",
+                    },
+                  },
+                  {
+                    type: "FeatureCard",
+                    props: {
+                      icon: "🌱",
+                      title: "Eco Friendly",
+                      description: "Sustainable technology solutions that help reduce your carbon footprint while maintaining top performance.",
+                      color: "#f8f9fa",
+                    },
+                  },
+                  {
+                    type: "FeatureCard",
+                    props: {
+                      icon: "⚙️",
+                      title: "Easy Setup",
+                      description: "Get started in minutes with our intuitive setup process. No technical expertise required.",
+                      color: "#f8f9fa",
+                    },
+                  },
+                ],
               },
             },
             {
-              type: "FeatureCard",
+              type: "Heading",
               props: {
-                icon: "📈",
-                title: content.scaleEasily,
-                description: content.scaleEasilyDesc,
-                color: "#fff3e0",
+                id: "heading-2",
+                text: "How The App Works",
+                level: "h2",
               },
             },
             {
-              type: "Testimonial",
+              type: "Text",
               props: {
-                quote: content.testimonialQuote,
-                author: content.testimonialAuthor,
-                role: content.testimonialRole,
-                rating: "5",
+                id: "text-2",
+                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                align: "center",
+                fontSize: "18px",
+                color: "#666666",
               },
             },
             {
-              type: "Button",
+              type: "Grid",
               props: {
-                text: content.startFreeTrial,
-                link: "#",
-                style: "primary",
+                id: "steps-grid-1",
+                columns: "2",
+                gap: "32px",
+                content: [
+                  {
+                    type: "Card",
+                    props: {
+                      title: "1. Turpis egestas sed",
+                      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                      imageUrl: "/images/step1.jpg",
+                    },
+                  },
+                  {
+                    type: "Card",
+                    props: {
+                      title: "2. Egestas diam in dignissim",
+                      content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                      imageUrl: "/images/step2.jpg",
+                    },
+                  },
+                  {
+                    type: "Card",
+                    props: {
+                      title: "3. Bibendum at varius",
+                      content: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                      imageUrl: "/images/step3.jpg",
+                    },
+                  },
+                  {
+                    type: "Card",
+                    props: {
+                      title: "4. Fermentum leo vel orci",
+                      content: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                      imageUrl: "/images/step4.jpg",
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              type: "StatsSection",
+              props: {
+                id: "stats-section-1",
+                title: "Some Tech Specs",
+                subtitle: "Numbers that speak for themselves",
+                backgroundColor: "#f8f9fa",
+                stats: "90% Massa dictum convallis\n85% Pellentesque habitant morbi\n95% Tristique senectus et netus\n88% Malesuada fames ac turpis",
+              },
+            },
+            {
+              type: "Heading",
+              props: {
+                id: "heading-3",
+                text: "Our Simple Straight-Forward Pricing",
+                level: "h2",
+              },
+            },
+            {
+              type: "Text",
+              props: {
+                id: "text-3",
+                text: "Choose the plan that works best for your business. No hidden fees, no surprises.",
+                align: "center",
+                fontSize: "18px",
+                color: "#666666",
+              },
+            },
+            {
+              type: "Flex",
+              props: {
+                id: "pricing-flex-1",
+                direction: "row",
+                justify: "center",
+                align: "stretch",
+                gap: "32px",
+                wrap: "wrap",
+                content: [
+                  {
+                    type: "PricingCard",
+                    props: {
+                      planName: "Free Plan",
+                      price: "$0",
+                      period: "Forever",
+                      features: "100GB Storage\nLimited Bandwidth\nBasic Support\nStandard Templates",
+                      buttonText: "Get Started",
+                      buttonLink: "#",
+                      popular: "false",
+                    },
+                  },
+                  {
+                    type: "PricingCard",
+                    props: {
+                      planName: "Pro Plan",
+                      price: "$30",
+                      period: "per month",
+                      features: "500GB Storage\nUnlimited Bandwidth\nPriority Support\nPremium Templates\nAdvanced Analytics",
+                      buttonText: "Get Started",
+                      buttonLink: "#",
+                      popular: "true",
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              type: "Heading",
+              props: {
+                id: "heading-4",
+                text: "Our Users Love Our App!",
+                level: "h2",
+              },
+            },
+            {
+              type: "Grid",
+              props: {
+                id: "testimonials-grid-1",
+                columns: "3",
+                gap: "24px",
+                content: [
+                  {
+                    type: "Testimonial",
+                    props: {
+                      quote: "This platform transformed our business. We've seen 300% growth in just 6 months!",
+                      author: "Anna Pearson",
+                      role: "App Developer",
+                      rating: "5",
+                      avatar: "/images/avatar1.jpg",
+                    },
+                  },
+                  {
+                    type: "Testimonial",
+                    props: {
+                      quote: "Outstanding service and expertise. They helped us streamline our operations significantly.",
+                      author: "Michael Anderson",
+                      role: "Great Support",
+                      rating: "5",
+                      avatar: "/images/avatar2.jpg",
+                    },
+                  },
+                  {
+                    type: "Testimonial",
+                    props: {
+                      quote: "The best investment we've made for our startup. Highly recommended!",
+                      author: "Sarah Johnson",
+                      role: "CEO, TechStart",
+                      rating: "5",
+                      avatar: "/images/avatar3.jpg",
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              type: "DownloadSection",
+              props: {
+                id: "download-section-1",
+                title: "Download Our App Now",
+                subtitle: "Available on iOS and Android. Get started today and experience the future of productivity.",
+                backgroundColor: "#f8f9fa",
+                appStoreUrl: "#",
+                playStoreUrl: "#",
               },
             },
           ],

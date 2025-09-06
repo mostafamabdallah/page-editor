@@ -182,6 +182,52 @@ export function PreviewPage() {
           </div></div>`;
         }
         
+        case 'AppMockup': {
+          const justifyContent = component.props?.position === "left" ? (isRTL ? "flex-end" : "flex-start") : 
+                                component.props?.position === "right" ? (isRTL ? "flex-start" : "flex-end") : "center";
+          return `<div style="display: flex; justify-content: ${justifyContent}; align-items: center; margin: 20px 0; direction: ${isRTL ? 'rtl' : 'ltr'};">
+            <img src="${component.props?.imageUrl || '/images/app-mockup.png'}" alt="${component.props?.altText || 'App Mockup'}" style="width: ${component.props?.width || '300px'}; height: auto; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);" />
+          </div>`;
+        }
+        case 'StatsSection': {
+          const statsArray = String(component.props?.stats || '').split('\n').filter((stat: string) => stat.trim());
+          const statsHtml = statsArray.map((stat: string) => {
+            const parts = stat.split(' ');
+            const percentage = parts[0];
+            const description = parts.slice(1).join(' ');
+            return `
+              <div style="text-align: center;">
+                <div style="font-size: 3rem; font-weight: bold; color: #007bff; margin-bottom: 10px;">${percentage}</div>
+                <div style="color: #333333; font-size: 1.1rem;">${description}</div>
+              </div>
+            `;
+          }).join('');
+          return `
+            <div style="background-color: ${component.props?.backgroundColor || '#f8f9fa'}; padding: 80px 20px; text-align: center; direction: ${isRTL ? 'rtl' : 'ltr'};">
+              <h2 style="color: #333333; font-size: 2.5rem; margin-bottom: 20px; font-weight: bold;">${component.props?.title || 'Our Impact'}</h2>
+              <p style="color: #666666; font-size: 1.2rem; margin-bottom: 60px; max-width: 600px; margin: 0 auto 60px auto;">${component.props?.subtitle || 'Numbers that speak for themselves'}</p>
+              <div style="display: grid; grid-template-columns: repeat(${statsArray.length}, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto;">
+                ${statsHtml}
+              </div>
+            </div>
+          `;
+        }
+        case 'DownloadSection': {
+          return `
+            <div style="background-color: ${component.props?.backgroundColor || '#f8f9fa'}; padding: 80px 20px; text-align: center; direction: ${isRTL ? 'rtl' : 'ltr'};">
+              <h2 style="color: #333333; font-size: 2.5rem; margin-bottom: 20px; font-weight: bold;">${component.props?.title || 'Download Our App Now'}</h2>
+              <p style="color: #666666; font-size: 1.2rem; margin-bottom: 40px; max-width: 600px; margin: 0 auto 40px auto;">${component.props?.subtitle || 'Available on iOS and Android. Get started today and experience the future of productivity.'}</p>
+              <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <a href="${component.props?.appStoreUrl || '#'}" style="display: inline-block; background-color: #000000; color: #ffffff; padding: 15px 30px; border-radius: 10px; text-decoration: none; font-size: 1.1rem; font-weight: bold; min-width: 200px;">
+                  📱 Download on the App Store
+                </a>
+                <a href="${component.props?.playStoreUrl || '#'}" style="display: inline-block; background-color: #000000; color: #ffffff; padding: 15px 30px; border-radius: 10px; text-decoration: none; font-size: 1.1rem; font-weight: bold; min-width: 200px;">
+                  🤖 GET IT ON Google Play
+                </a>
+              </div>
+            </div>
+          `;
+        }
         case 'ContactForm':
           return `<div style="padding: 40px 20px; background: ${component.props?.backgroundColor || '#f8fafc'};">
             <h2 style="text-align: center; margin: 0 0 32px 0; font-size: 32px; font-weight: bold; color: #1f2937;">${component.props?.formTitle || 'Get in Touch'}</h2>

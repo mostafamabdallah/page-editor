@@ -44,6 +44,7 @@ export function Editor() {
       }
     }
   }, []);
+  
 
   // Force Puck to re-render when language changes
   useEffect(() => {
@@ -65,7 +66,7 @@ export function Editor() {
     navigate("/preview");
   };
 
-  console.log(currentData);
+  console.log(JSON.stringify(currentData));
 
   const isRTL = i18n.language === 'ar';
 

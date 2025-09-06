@@ -14,7 +14,7 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
       },
       content: {
         title: t('puck.categories.content'),
-        components: ['Text', 'Heading', 'Button', 'Image', 'Card', 'Hero', 'FeatureCard', 'Testimonial', 'PricingCard', 'ContactForm']
+        components: ['Text', 'Heading', 'Button', 'Image', 'Card', 'Hero', 'FeatureCard', 'Testimonial', 'PricingCard', 'ContactForm', 'AppMockup', 'StatsSection', 'DownloadSection']
       }
     },
     components: {
@@ -865,6 +865,250 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
               boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
             }}>
               <Content />
+            </div>
+          );
+        },
+      },
+
+      AppMockup: {
+        label: t('puck.componentNames.AppMockup'),
+        fields: {
+          imageUrl: {
+            type: "text",
+            label: t('puck.components.appMockup.imageUrl'),
+          },
+          altText: {
+            type: "text",
+            label: t('puck.components.appMockup.altText'),
+          },
+          width: {
+            type: "select",
+            label: t('puck.components.appMockup.width'),
+            options: [
+              { label: t('puck.components.appMockup.small'), value: "200px" },
+              { label: t('puck.components.appMockup.medium'), value: "300px" },
+              { label: t('puck.components.appMockup.large'), value: "400px" },
+            ],
+          },
+          position: {
+            type: "select",
+            label: t('puck.components.appMockup.position'),
+            options: [
+              { label: t('puck.components.appMockup.left'), value: "left" },
+              { label: t('puck.components.appMockup.right'), value: "right" },
+              { label: t('puck.components.appMockup.center'), value: "center" },
+            ],
+          },
+        },
+        defaultProps: {
+          imageUrl: "/images/app-mockup.png",
+          altText: "App Mockup",
+          width: "300px",
+          position: "right",
+        },
+        render: ({ imageUrl, altText, width, position }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          return (
+            <div style={{
+              display: "flex",
+              justifyContent: position === "left" ? (isRTL ? "flex-end" : "flex-start") : 
+                              position === "right" ? (isRTL ? "flex-start" : "flex-end") : "center",
+              alignItems: "center",
+              margin: "20px 0",
+            }}>
+              <img
+                src={imageUrl}
+                alt={altText}
+                style={{
+                  width: width,
+                  height: "auto",
+                  borderRadius: "20px",
+                  boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
+                  transform: "perspective(1000px) rotateY(-5deg) rotateX(5deg)",
+                }}
+              />
+            </div>
+          );
+        },
+      },
+
+      StatsSection: {
+        label: t('puck.componentNames.StatsSection'),
+        fields: {
+          title: {
+            type: "text",
+            label: t('puck.components.statsSection.title'),
+          },
+          subtitle: {
+            type: "textarea",
+            label: t('puck.components.statsSection.subtitle'),
+          },
+          backgroundColor: {
+            type: "text",
+            label: t('puck.components.statsSection.backgroundColor'),
+          },
+          stats: {
+            type: "textarea",
+            label: t('puck.components.statsSection.stats'),
+          },
+        },
+        defaultProps: {
+          title: "Our Impact",
+          subtitle: "Numbers that speak for themselves",
+          backgroundColor: "#1a1a1a",
+          stats: "1000+ Users\n99.9% Uptime\n50+ Countries\n24/7 Support",
+        },
+        render: ({ title, subtitle, backgroundColor, stats }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          const statsArray = stats.split('\n').filter((stat: string) => stat.trim());
+          
+          return (
+            <div style={{
+              backgroundColor: backgroundColor,
+              padding: "80px 20px",
+              textAlign: "center",
+              direction: isRTL ? 'rtl' : 'ltr',
+            }}>
+              <h2 style={{
+                color: "#ffffff",
+                fontSize: "2.5rem",
+                marginBottom: "20px",
+                fontWeight: "bold",
+              }}>
+                {title}
+              </h2>
+              <p style={{
+                color: "#cccccc",
+                fontSize: "1.2rem",
+                marginBottom: "60px",
+                maxWidth: "600px",
+                margin: "0 auto 60px auto",
+              }}>
+                {subtitle}
+              </p>
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: `repeat(${statsArray.length}, 1fr)`,
+                gap: "40px",
+                maxWidth: "1200px",
+                margin: "0 auto",
+              }}>
+                {statsArray.map((stat: string, index: number) => (
+                  <div key={index} style={{
+                    textAlign: "center",
+                  }}>
+                    <div style={{
+                      fontSize: "3rem",
+                      fontWeight: "bold",
+                      color: "#007bff",
+                      marginBottom: "10px",
+                    }}>
+                      {stat.split(' ')[0]}
+                    </div>
+                    <div style={{
+                      color: "#ffffff",
+                      fontSize: "1.1rem",
+                    }}>
+                      {stat.split(' ').slice(1).join(' ')}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        },
+      },
+
+      DownloadSection: {
+        label: t('puck.componentNames.DownloadSection'),
+        fields: {
+          title: {
+            type: "text",
+            label: t('puck.components.downloadSection.title'),
+          },
+          subtitle: {
+            type: "textarea",
+            label: t('puck.components.downloadSection.subtitle'),
+          },
+          backgroundColor: {
+            type: "text",
+            label: t('puck.components.downloadSection.backgroundColor'),
+          },
+          appStoreUrl: {
+            type: "text",
+            label: t('puck.components.downloadSection.appStoreUrl'),
+          },
+          playStoreUrl: {
+            type: "text",
+            label: t('puck.components.downloadSection.playStoreUrl'),
+          },
+        },
+        defaultProps: {
+          title: "Download Our App Now",
+          subtitle: "Available on iOS and Android. Get started today and experience the future of productivity.",
+          backgroundColor: "#f8f9fa",
+          appStoreUrl: "#",
+          playStoreUrl: "#",
+        },
+        render: ({ title, subtitle, backgroundColor, appStoreUrl, playStoreUrl }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          return (
+            <div style={{
+              backgroundColor: backgroundColor,
+              padding: "80px 20px",
+              textAlign: "center",
+              direction: isRTL ? 'rtl' : 'ltr',
+            }}>
+              <h2 style={{
+                color: "#333333",
+                fontSize: "2.5rem",
+                marginBottom: "20px",
+                fontWeight: "bold",
+              }}>
+                {title}
+              </h2>
+              <p style={{
+                color: "#666666",
+                fontSize: "1.2rem",
+                marginBottom: "40px",
+                maxWidth: "600px",
+                margin: "0 auto 40px auto",
+              }}>
+                {subtitle}
+              </p>
+              <div style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "20px",
+                flexWrap: "wrap",
+              }}>
+                <a href={appStoreUrl} style={{
+                  display: "inline-block",
+                  backgroundColor: "#000000",
+                  color: "#ffffff",
+                  padding: "15px 30px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  fontSize: "1.1rem",
+                  fontWeight: "bold",
+                  minWidth: "200px",
+                }}>
+                  📱 Download on the App Store
+                </a>
+                <a href={playStoreUrl} style={{
+                  display: "inline-block",
+                  backgroundColor: "#000000",
+                  color: "#ffffff",
+                  padding: "15px 30px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  fontSize: "1.1rem",
+                  fontWeight: "bold",
+                  minWidth: "200px",
+                }}>
+                  🤖 GET IT ON Google Play
+                </a>
+              </div>
             </div>
           );
         },
