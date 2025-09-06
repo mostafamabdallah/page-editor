@@ -345,7 +345,7 @@ export function TemplatePage() {
 
   // Function to create localized template data
   const createLocalizedTemplateData = (templateId: string) => {
-    const content = t(`templatePage.templates.${templateId}.content`);
+    const content = t(`templatePage.templates.${templateId}.content`, { returnObjects: true }) as Record<string, string>;
     
     switch (templateId) {
       case "startup":

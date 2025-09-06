@@ -50,19 +50,6 @@ export function Editor() {
     setPuckKey(prev => prev + 1);
   }, [i18n.language]);
 
-  const handleLoadFromStorage = () => {
-    const saved = localStorage.getItem("puck-data");
-    if (saved) {
-      try {
-        const parsedData = JSON.parse(saved);
-        setCurrentData(parsedData);
-        setPuckKey(prev => prev + 1); // Force Puck to re-render
-      } catch (error) {
-        console.error("Error loading saved data:", error);
-      }
-    }
-  };
-
   // Handle data changes from Puck editor
   const handleDataChange = (data: Data) => {
     setCurrentData(data);
@@ -72,6 +59,10 @@ export function Editor() {
 
   const handleBackToHome = () => {
     navigate("/");
+  };
+
+  const handlePreview = () => {
+    navigate("/preview");
   };
 
   console.log(currentData);
@@ -90,20 +81,6 @@ export function Editor() {
       }}>
         <div style={{ display: "flex", gap: "10px" }}>
         <button
-          onClick={handleLoadFromStorage}
-          style={{
-            padding: "8px 16px",
-            backgroundColor: "#6c757d",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontWeight: "bold"
-          }}
-        >
-          📁 {t('editor.loadSaved')}
-        </button>
-        <button
           onClick={handleBackToHome}
           style={{
             padding: "8px 16px",
@@ -116,6 +93,20 @@ export function Editor() {
           }}
         >
           🏠 {t('editor.backToHome')}
+        </button>
+        <button
+          onClick={handlePreview}
+          style={{
+            padding: "8px 16px",
+            backgroundColor: "#28a745",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontWeight: "bold"
+          }}
+        >
+          👁️ {t('editor.preview')}
         </button>
         </div>
         
