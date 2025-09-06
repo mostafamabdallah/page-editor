@@ -7,8 +7,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export const createLocalizedPuckConfig = (t: (key: string) => string): Config => {
 
   return {
+    categories: {
+      content: {
+        title: t('puck.categories.content'),
+        components: ['Text', 'Heading', 'Button', 'Image', 'Card', 'Hero', 'FeatureCard', 'Testimonial', 'PricingCard', 'ContactForm']
+      }
+    },
     components: {
       Text: {
+        label: t('puck.componentNames.Text'),
         fields: {
           text: {
             type: "text",
@@ -51,19 +58,24 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
           color: "#333",
           fontWeight: "normal",
         },
-        render: ({ text, align, fontSize, color, fontWeight }) => (
-          <p style={{ 
-            margin: "10px 0", 
-            lineHeight: "1.6",
-            textAlign: align,
-            fontSize,
-            color,
-            fontWeight,
-          }}>{text}</p>
-        ),
+        render: ({ text, align, fontSize, color, fontWeight }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          return (
+            <p style={{ 
+              margin: "10px 0", 
+              lineHeight: "1.6",
+              textAlign: isRTL ? (align === 'left' ? 'right' : align === 'right' ? 'left' : align) : align,
+              fontSize,
+              color,
+              fontWeight,
+              direction: isRTL ? 'rtl' : 'ltr',
+            }}>{text}</p>
+          );
+        },
       },
 
       Heading: {
+        label: t('puck.componentNames.Heading'),
         fields: {
           text: {
             type: "text",
@@ -85,8 +97,14 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
         },
         render: ({ text, level }) => {
           const Tag = level as "h1" | "h2" | "h3";
+          const isRTL = document.documentElement.dir === 'rtl';
           return (
-            <Tag style={{ margin: "20px 0", fontWeight: "bold" }}>
+            <Tag style={{ 
+              margin: "20px 0", 
+              fontWeight: "bold",
+              direction: isRTL ? 'rtl' : 'ltr',
+              textAlign: isRTL ? 'right' : 'left',
+            }}>
               {text}
             </Tag>
           );
@@ -94,6 +112,7 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
       },
 
       Button: {
+        label: t('puck.componentNames.Button'),
         fields: {
           text: {
             type: "text",
@@ -133,9 +152,14 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
           size: "default",
         },
         render: ({ text, link, variant, size }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
           return (
             <a href={link} style={{ textDecoration: "none" }}>
-              <Button variant={variant as "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"} size={size as "default" | "sm" | "lg" | "icon"}>
+              <Button 
+                variant={variant as "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"} 
+                size={size as "default" | "sm" | "lg" | "icon"}
+                style={{ direction: isRTL ? 'rtl' : 'ltr' }}
+              >
                 {text}
               </Button>
             </a>
@@ -144,6 +168,7 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
       },
 
       Image: {
+        label: t('puck.componentNames.Image'),
         fields: {
           src: {
             type: "text",
@@ -185,6 +210,7 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
       },
 
       Card: {
+        label: t('puck.componentNames.Card'),
         fields: {
           title: {
             type: "text",
@@ -204,38 +230,52 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
           content: t('puck.components.card.cardContentDefault'),
           imageUrl: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkNhcmQ8L3RleHQ+PC9zdmc+",
         },
-        render: ({ title, content, imageUrl }) => (
-          <div style={{
-            border: "1px solid #e0e0e0",
-            borderRadius: "8px",
-            overflow: "hidden",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-            backgroundColor: "white",
-            maxWidth: "350px",
-            margin: "10px 0",
-          }}>
-            <img
-              src={imageUrl}
-              alt={title}
-              style={{
-                width: "100%",
-                height: "200px",
-                objectFit: "cover",
-              }}
-            />
-            <div style={{ padding: "20px" }}>
-              <h3 style={{ margin: "0 0 10px 0", fontSize: "1.2rem" }}>
-                {title}
-              </h3>
-              <p style={{ margin: "0", color: "#666", lineHeight: "1.5" }}>
-                {content}
-              </p>
+        render: ({ title, content, imageUrl }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          return (
+            <div style={{
+              border: "1px solid #e0e0e0",
+              borderRadius: "8px",
+              overflow: "hidden",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              backgroundColor: "white",
+              maxWidth: "350px",
+              margin: "10px 0",
+              direction: isRTL ? 'rtl' : 'ltr',
+            }}>
+              <img
+                src={imageUrl}
+                alt={title}
+                style={{
+                  width: "100%",
+                  height: "200px",
+                  objectFit: "cover",
+                }}
+              />
+              <div style={{ padding: "20px" }}>
+                <h3 style={{ 
+                  margin: "0 0 10px 0", 
+                  fontSize: "1.2rem",
+                  textAlign: isRTL ? 'right' : 'left',
+                }}>
+                  {title}
+                </h3>
+                <p style={{ 
+                  margin: "0", 
+                  color: "#666", 
+                  lineHeight: "1.5",
+                  textAlign: isRTL ? 'right' : 'left',
+                }}>
+                  {content}
+                </p>
+              </div>
             </div>
-          </div>
-        ),
+          );
+        },
       },
 
       Hero: {
+        label: t('puck.componentNames.Hero'),
         fields: {
           title: {
             type: "text",
@@ -285,47 +325,64 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
           backgroundImage: "",
           height: "500px",
         },
-        render: ({ title, subtitle, buttonText, buttonLink, backgroundColor, textColor, backgroundImage, height }) => (
-          <div style={{
-            backgroundImage: backgroundImage ? `url(${backgroundImage})` : `linear-gradient(135deg, ${backgroundColor} 0%, ${backgroundColor}dd 100%)`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            color: textColor,
-            padding: "60px 20px",
-            textAlign: "center",
-            minHeight: height,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "10px 0",
-          }}>
-            <h1 style={{ fontSize: "3rem", marginBottom: "20px", fontWeight: "bold" }}>
-              {title}
-            </h1>
-            <p style={{ fontSize: "1.2rem", marginBottom: "30px", maxWidth: "600px", lineHeight: "1.6" }}>
-              {subtitle}
-            </p>
-            <a
-              href={buttonLink}
-              style={{
-                backgroundColor: "white",
-                color: "#333",
-                padding: "15px 30px",
-                borderRadius: "5px",
-                textDecoration: "none",
+        render: ({ title, subtitle, buttonText, buttonLink, backgroundColor, textColor, backgroundImage, height }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          return (
+            <div style={{
+              backgroundImage: backgroundImage ? `url(${backgroundImage})` : `linear-gradient(135deg, ${backgroundColor} 0%, ${backgroundColor}dd 100%)`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              color: textColor,
+              padding: "60px 20px",
+              textAlign: "center",
+              minHeight: height,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "10px 0",
+              direction: isRTL ? 'rtl' : 'ltr',
+            }}>
+              <h1 style={{ 
+                fontSize: "3rem", 
+                marginBottom: "20px", 
                 fontWeight: "bold",
-                fontSize: "1.1rem",
-                display: "inline-block",
-              }}
-            >
-              {buttonText}
-            </a>
-          </div>
-        ),
+                textAlign: "center",
+              }}>
+                {title}
+              </h1>
+              <p style={{ 
+                fontSize: "1.2rem", 
+                marginBottom: "30px", 
+                maxWidth: "600px", 
+                lineHeight: "1.6",
+                textAlign: "center",
+              }}>
+                {subtitle}
+              </p>
+              <a
+                href={buttonLink}
+                style={{
+                  backgroundColor: "white",
+                  color: "#333",
+                  padding: "15px 30px",
+                  borderRadius: "5px",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                  fontSize: "1.1rem",
+                  display: "inline-block",
+                  direction: isRTL ? 'rtl' : 'ltr',
+                }}
+              >
+                {buttonText}
+              </a>
+            </div>
+          );
+        },
       },
 
       FeatureCard: {
+        label: t('puck.componentNames.FeatureCard'),
         fields: {
           icon: {
             type: "text",
@@ -356,24 +413,36 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
           description: t('puck.components.featureCard.amazingFeatureDesc'),
           color: "#e3f2fd",
         },
-        render: ({ icon, title, description, color }) => (
-          <Card style={{ backgroundColor: color, textAlign: "center" }}>
-            <CardHeader>
-              <div style={{ fontSize: "3rem", marginBottom: "15px" }}>
-                {icon}
-              </div>
-              <CardTitle>{title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription style={{ color: "#666", lineHeight: "1.6" }}>
-                {description}
-              </CardDescription>
-            </CardContent>
-          </Card>
-        ),
+        render: ({ icon, title, description, color }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          return (
+            <Card style={{ 
+              backgroundColor: color, 
+              textAlign: "center",
+              direction: isRTL ? 'rtl' : 'ltr',
+            }}>
+              <CardHeader>
+                <div style={{ fontSize: "3rem", marginBottom: "15px" }}>
+                  {icon}
+                </div>
+                <CardTitle style={{ textAlign: "center" }}>{title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription style={{ 
+                  color: "#666", 
+                  lineHeight: "1.6",
+                  textAlign: "center",
+                }}>
+                  {description}
+                </CardDescription>
+              </CardContent>
+            </Card>
+          );
+        },
       },
 
       Testimonial: {
+        label: t('puck.componentNames.Testimonial'),
         fields: {
           quote: {
             type: "textarea",
@@ -408,50 +477,61 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
           avatar: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMzAiIGZpbGw9IiM2NjY2NjYiLz4KPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5KUzwvdGV4dD4KPC9zdmc+",
           rating: "5",
         },
-        render: ({ quote, author, role, avatar, rating }) => (
-          <div style={{
-            backgroundColor: "#f8f9fa",
-            padding: "30px",
-            borderRadius: "12px",
-            border: "1px solid #e9ecef",
-            margin: "10px 0",
-          }}>
-            <div style={{ marginBottom: "20px" }}>
-              {Array.from({ length: parseInt(rating) }, (_, i) => (
-                <span key={i} style={{ color: "#ffc107", fontSize: "1.2rem" }}>★</span>
-              ))}
-            </div>
-            <blockquote style={{
-              fontSize: "1.1rem",
-              fontStyle: "italic",
-              margin: "0 0 20px 0",
-              lineHeight: "1.6",
-              color: "#333",
+        render: ({ quote, author, role, avatar, rating }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          return (
+            <div style={{
+              backgroundColor: "#f8f9fa",
+              padding: "30px",
+              borderRadius: "12px",
+              border: "1px solid #e9ecef",
+              margin: "10px 0",
+              direction: isRTL ? 'rtl' : 'ltr',
+              textAlign: isRTL ? 'right' : 'left',
             }}>
-              "{quote}"
-            </blockquote>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <img
-                src={avatar}
-                alt={author}
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  marginRight: "15px",
-                  objectFit: "cover",
-                }}
-              />
-              <div>
-                <div style={{ fontWeight: "bold", color: "#333" }}>{author}</div>
-                <div style={{ color: "#666", fontSize: "0.9rem" }}>{role}</div>
+              <div style={{ marginBottom: "20px" }}>
+                {Array.from({ length: parseInt(rating) }, (_, i) => (
+                  <span key={i} style={{ color: "#ffc107", fontSize: "1.2rem" }}>★</span>
+                ))}
+              </div>
+              <blockquote style={{
+                fontSize: "1.1rem",
+                fontStyle: "italic",
+                margin: "0 0 20px 0",
+                lineHeight: "1.6",
+                color: "#333",
+              }}>
+                "{quote}"
+              </blockquote>
+              <div style={{ 
+                display: "flex", 
+                alignItems: "center",
+                flexDirection: isRTL ? 'row-reverse' : 'row'
+              }}>
+                <img
+                  src={avatar}
+                  alt={author}
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    marginRight: isRTL ? "0" : "15px",
+                    marginLeft: isRTL ? "15px" : "0",
+                    objectFit: "cover",
+                  }}
+                />
+                <div>
+                  <div style={{ fontWeight: "bold", color: "#333" }}>{author}</div>
+                  <div style={{ color: "#666", fontSize: "0.9rem" }}>{role}</div>
+                </div>
               </div>
             </div>
-          </div>
-        ),
+          );
+        },
       },
 
       PricingCard: {
+        label: t('puck.componentNames.PricingCard'),
         fields: {
           planName: {
             type: "text",
@@ -495,80 +575,95 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
           buttonLink: "#",
           popular: "false",
         },
-        render: ({ planName, price, period, features, buttonText, buttonLink, popular }) => (
-          <div style={{
-            border: popular === "true" ? "2px solid #007bff" : "1px solid #e0e0e0",
-            borderRadius: "12px",
-            padding: "30px",
-            backgroundColor: "white",
-            position: "relative",
-            margin: "10px 0",
-            boxShadow: popular === "true" ? "0 4px 12px rgba(0,123,255,0.15)" : "0 2px 8px rgba(0,0,0,0.1)",
-          }}>
-            {popular === "true" && (
-              <div style={{
-                position: "absolute",
-                top: "-10px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                backgroundColor: "#007bff",
-                color: "white",
-                padding: "5px 20px",
-                borderRadius: "20px",
-                fontSize: "0.8rem",
-                fontWeight: "bold",
-              }}>
-                {t('puck.components.pricingCard.mostPopular')}
-              </div>
-            )}
-            <h3 style={{ margin: "0 0 10px 0", fontSize: "1.5rem", textAlign: "center" }}>
-              {planName}
-            </h3>
-            <div style={{ textAlign: "center", marginBottom: "20px" }}>
-              <span style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#007bff" }}>
-                {price}
-              </span>
-              <span style={{ color: "#666" }}>{period}</span>
-            </div>
-            <ul style={{
-              listStyle: "none",
-              padding: "0",
-              margin: "0 0 30px 0",
+        render: ({ planName, price, period, features, buttonText, buttonLink, popular }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          return (
+            <div style={{
+              border: popular === "true" ? "2px solid #007bff" : "1px solid #e0e0e0",
+              borderRadius: "12px",
+              padding: "30px",
+              backgroundColor: "white",
+              position: "relative",
+              margin: "10px 0",
+              boxShadow: popular === "true" ? "0 4px 12px rgba(0,123,255,0.15)" : "0 2px 8px rgba(0,0,0,0.1)",
+              direction: isRTL ? 'rtl' : 'ltr',
             }}>
-              {features.split('\n').map((feature: string, index: number) => (
-                <li key={index} style={{
-                  padding: "8px 0",
-                  borderBottom: "1px solid #f0f0f0",
-                  display: "flex",
-                  alignItems: "center",
+              {popular === "true" && (
+                <div style={{
+                  position: "absolute",
+                  top: "-10px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  padding: "5px 20px",
+                  borderRadius: "20px",
+                  fontSize: "0.8rem",
+                  fontWeight: "bold",
                 }}>
-                  <span style={{ color: "#28a745", marginRight: "10px" }}>✓</span>
-                  {feature.trim()}
-                </li>
-              ))}
-            </ul>
-            <a
-              href={buttonLink}
-              style={{
-                display: "block",
-                textAlign: "center",
-                backgroundColor: popular === "true" ? "#007bff" : "#6c757d",
-                color: "white",
-                padding: "12px 24px",
-                borderRadius: "6px",
-                textDecoration: "none",
-                fontWeight: "bold",
-                width: "100%",
-                boxSizing: "border-box",
-              }}
-            >
-              {buttonText}
-            </a>
-          </div>
-        ),
+                  {t('puck.components.pricingCard.mostPopular')}
+                </div>
+              )}
+              <h3 style={{ 
+                margin: "0 0 10px 0", 
+                fontSize: "1.5rem", 
+                textAlign: "center" 
+              }}>
+                {planName}
+              </h3>
+              <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                <span style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#007bff" }}>
+                  {price}
+                </span>
+                <span style={{ color: "#666" }}>{period}</span>
+              </div>
+              <ul style={{
+                listStyle: "none",
+                padding: "0",
+                margin: "0 0 30px 0",
+              }}>
+                {features.split('\n').map((feature: string, index: number) => (
+                  <li key={index} style={{
+                    padding: "8px 0",
+                    borderBottom: "1px solid #f0f0f0",
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: isRTL ? 'row-reverse' : 'row',
+                  }}>
+                    <span style={{ 
+                      color: "#28a745", 
+                      marginRight: isRTL ? "0" : "10px",
+                      marginLeft: isRTL ? "10px" : "0",
+                    }}>✓</span>
+                    {feature.trim()}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={buttonLink}
+                style={{
+                  display: "block",
+                  textAlign: "center",
+                  backgroundColor: popular === "true" ? "#007bff" : "#6c757d",
+                  color: "white",
+                  padding: "12px 24px",
+                  borderRadius: "6px",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                  width: "100%",
+                  boxSizing: "border-box",
+                  direction: isRTL ? 'rtl' : 'ltr',
+                }}
+              >
+                {buttonText}
+              </a>
+            </div>
+          );
+        },
       },
 
       ContactForm: {
+        label: t('puck.componentNames.ContactForm'),
         fields: {
           title: {
             type: "text",
@@ -593,80 +688,94 @@ export const createLocalizedPuckConfig = (t: (key: string) => string): Config =>
           submitText: t('puck.components.contactForm.sendMessage'),
           backgroundColor: "#f8f9fa",
         },
-        render: ({ title, submitText, backgroundColor }) => (
-          <div style={{
-            backgroundColor,
-            padding: "40px",
-            borderRadius: "12px",
-            border: "1px solid #e0e0e0",
-            margin: "10px 0",
-          }}>
-            <h3 style={{ margin: "0 0 20px 0", textAlign: "center" }}>
-              {title}
-            </h3>
-            <form style={{ maxWidth: "500px", margin: "0 auto" }}>
-              <div style={{ marginBottom: "15px" }}>
-                <input
-                  type="text"
-                  placeholder={t('puck.components.contactForm.yourName')}
+        render: ({ title, submitText, backgroundColor }) => {
+          const isRTL = document.documentElement.dir === 'rtl';
+          return (
+            <div style={{
+              backgroundColor,
+              padding: "40px",
+              borderRadius: "12px",
+              border: "1px solid #e0e0e0",
+              margin: "10px 0",
+              direction: isRTL ? 'rtl' : 'ltr',
+            }}>
+              <h3 style={{ 
+                margin: "0 0 20px 0", 
+                textAlign: "center" 
+              }}>
+                {title}
+              </h3>
+              <form style={{ maxWidth: "500px", margin: "0 auto" }}>
+                <div style={{ marginBottom: "15px" }}>
+                  <input
+                    type="text"
+                    placeholder={t('puck.components.contactForm.yourName')}
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      borderRadius: "6px",
+                      fontSize: "16px",
+                      boxSizing: "border-box",
+                      direction: isRTL ? 'rtl' : 'ltr',
+                      textAlign: isRTL ? 'right' : 'left',
+                    }}
+                  />
+                </div>
+                <div style={{ marginBottom: "15px" }}>
+                  <input
+                    type="email"
+                    placeholder={t('puck.components.contactForm.yourEmail')}
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      borderRadius: "6px",
+                      fontSize: "16px",
+                      boxSizing: "border-box",
+                      direction: isRTL ? 'rtl' : 'ltr',
+                      textAlign: isRTL ? 'right' : 'left',
+                    }}
+                  />
+                </div>
+                <div style={{ marginBottom: "15px" }}>
+                  <textarea
+                    placeholder={t('puck.components.contactForm.yourMessage')}
+                    rows={4}
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      borderRadius: "6px",
+                      fontSize: "16px",
+                      boxSizing: "border-box",
+                      resize: "vertical",
+                      direction: isRTL ? 'rtl' : 'ltr',
+                      textAlign: isRTL ? 'right' : 'left',
+                    }}
+                  />
+                </div>
+                <button
+                  type="submit"
                   style={{
                     width: "100%",
+                    backgroundColor: "#007bff",
+                    color: "white",
                     padding: "12px",
-                    border: "1px solid #ddd",
+                    border: "none",
                     borderRadius: "6px",
                     fontSize: "16px",
-                    boxSizing: "border-box",
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                    direction: isRTL ? 'rtl' : 'ltr',
                   }}
-                />
-              </div>
-              <div style={{ marginBottom: "15px" }}>
-                <input
-                  type="email"
-                  placeholder={t('puck.components.contactForm.yourEmail')}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    border: "1px solid #ddd",
-                    borderRadius: "6px",
-                    fontSize: "16px",
-                    boxSizing: "border-box",
-                  }}
-                />
-              </div>
-              <div style={{ marginBottom: "15px" }}>
-                <textarea
-                  placeholder={t('puck.components.contactForm.yourMessage')}
-                  rows={4}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    border: "1px solid #ddd",
-                    borderRadius: "6px",
-                    fontSize: "16px",
-                    boxSizing: "border-box",
-                    resize: "vertical",
-                  }}
-                />
-              </div>
-              <button
-                type="submit"
-                style={{
-                  width: "100%",
-                  backgroundColor: "#007bff",
-                  color: "white",
-                  padding: "12px",
-                  border: "none",
-                  borderRadius: "6px",
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                }}
-              >
-                {submitText}
-              </button>
-            </form>
-          </div>
-        ),
+                >
+                  {submitText}
+                </button>
+              </form>
+            </div>
+          );
+        },
       },
     },
   };
